@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--  Activity CheckActivity -->
+  <string name="about">关于</string>
+  <string name="help">帮助</string>	
+  <string name="settings">设置</string> 
+  <string name="uncheck_all">Uncheck All</string>   
+  <array name="travel_list">
+    <item>备用眼镜</item>
+    <item>牙刷</item>
+    <item>牙膏</item>
+    <item>拖鞋</item>
+    <item>护照</item>
+    <item>机票</item>
+    <item>数据线</item>
+    <item>毛巾</item>
+    <item>伞</item>
+    <item>转换插座</item>
+    <item>药</item>
+    <item>书</item>
+  </array>
+</resources>
+
