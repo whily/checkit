@@ -1,3 +1,14 @@
+/**
+ * Check activity for CheckIt.
+ *
+ * @author  Yujian Zhang <yujian{dot}zhang[at]gmail(dot)com>
+ *
+ * License: 
+ *   GNU General Public License v2
+ *   http://www.gnu.org/licenses/gpl-2.0.html
+ * Copyright (C) 2011 Yujian Zhang
+ */
+
 package net.whily.android.checkit;
 
 import android.app.ListActivity;
@@ -48,11 +59,11 @@ public class CheckActivity extends ListActivity {
         return true;
         
       case SETTINGS_ID:
-        startActivity(new Intent(this, Settings.class));
+        startActivity(new Intent(this, SettingsActivity.class));
         return true;
 
       case ABOUT_ID:
-        startActivity(new Intent(this, About.class));
+        startActivity(new Intent(this, AboutActivity.class));
         return true;
 
       default:
@@ -63,6 +74,7 @@ public class CheckActivity extends ListActivity {
   //@Override
   protected void onListItemClick(ListView l, View v, int position, long id)
   {
+    // FIXME: currently items are randomly selected/deselcted.
     CheckedTextView textView = (CheckedTextView)v;
     textView.setChecked(!textView.isChecked());
   }
