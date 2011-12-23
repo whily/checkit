@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <PreferenceCategory
+      android:title="@string/sync_preferences">
+    <CheckBoxPreference
+        android:key="auto_sync_preference"
+        android:title="@string/auto_sync_preferences"
+        android:summaryOff="@string/summary_off_auto_sync_preference"
+        android:summaryOn="@string/summary_on_auto_sync_preference" />
+  </PreferenceCategory>
+</PreferenceScreen>
