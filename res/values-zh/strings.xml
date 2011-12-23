@@ -2,9 +2,11 @@
 <resources>
   <!--  Activity CheckActivity -->
   <string name="about">关于</string>
+  <string name="app_name">CheckIt</string>
+  <string name="checklists">列表</string>
   <string name="help">帮助</string>	
   <string name="settings">设置</string> 
-  <string name="uncheck_all">Uncheck All</string>   
+  <string name="uncheck_all">取消所有选中</string>   
   <array name="travel_list">
     <item>备用眼镜</item>
     <item>梳子</item>
@@ -20,5 +22,21 @@
     <item>药</item>
     <item>书</item>
   </array>
+  
+  <!--  Activity Settings -->
+  <string name="sync_preferences">同步</string>
+  <string name="auto_sync_preferences">自动与Google Tasks同步</string>
+  <string name="summary_off_auto_sync_preference">
+    启用自动与Google Tasks同步
+  </string>
+  <string name="summary_on_auto_sync_preference">
+    关闭自动与Google Tasks同步
+  </string>    
+  
+  <!-- Activity About -->
+  <string name="whats_new">更新内容</string>
+  <string name="changelog">更新日志</string>
+  <string name="help_and_faq">帮助与常见问题</string>
+  <string name="other_programs">开发者的其他应用</string>
 </resources>
 
