@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# General icons from Inkscape file.
+
+inkscape -e res/drawable-ldpi/ic_launcher_checkit.png -D -y 0.0 -w 36 -h 36 art/ic_launcher_checkit.svg
+inkscape -e res/drawable-mdpi/ic_launcher_checkit.png -D -y 0.0 -w 48 -h 48 art/ic_launcher_checkit.svg
+inkscape -e res/drawable-hdpi/ic_launcher_checkit.png -D -y 0.0 -w 72 -h 72 art/ic_launcher_checkit.svg
+inkscape -e res/drawable-xhdpi/ic_launcher_checkit.png -D -y 0.0 -w 96 -h 96 art/ic_launcher_checkit.svg
