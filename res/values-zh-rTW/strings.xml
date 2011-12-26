@@ -24,8 +24,24 @@
   </array>
 
   <!--  Activity Settings -->
-  <string name="sync_preferences">同步</string>
-  <string name="auto_sync_preferences">自動與Google Tasks同步</string>
+  <string name="appearance_preference">外觀</string>
+  <string name="theme_title_preference">主题</string>
+  <string name="theme_summary_preference">主题</string>
+  <string name="theme_dialog_title_preference">主题</string>
+  <array name="theme_entries_preference">
+    <item>亮</item>
+    <item>暗</item>
+  </array>
+  <string name="text_size_title_preference">文字大小</string>
+  <string name="text_size_summary_preference">文字大小</string>
+  <string name="text_size_dialog_title_preference">文字大小</string>
+  <array name="text_size_entries_preference">
+    <item>中</item>
+    <item>大</item>
+    <item>超大</item>
+  </array>
+  <string name="sync_preference">同步</string>
+  <string name="auto_sync_preference">自動與Google Tasks同步</string>
   <string name="summary_off_auto_sync_preference">
     啟用自動與Google Tasks同步
   </string>
