@@ -17,25 +17,25 @@
     <item>機票</item>
     <item>數據線</item>
     <item>毛巾</item>
-    <item>伞</item>
-    <item>转换插座</item>
-    <item>药</item>
-    <item>书</item>
+    <item>傘</item>
+    <item>轉換插座</item>
+    <item>藥</item>
+    <item>書</item>
   </array>
 
   <!--  Activity Settings -->
   <string name="sync_preferences">同步</string>
-  <string name="auto_sync_preferences">自动与Google Tasks同步</string>
+  <string name="auto_sync_preferences">自動與Google Tasks同步</string>
   <string name="summary_off_auto_sync_preference">
-    启用自动与Google Tasks同步
+    啟用自動與Google Tasks同步
   </string>
   <string name="summary_on_auto_sync_preference">
-    关闭自动与Google Tasks同步
+    關閉自動與Google Tasks同步
   </string>    
   
   <!-- Activity About -->
   <string name="whats_new">更新内容</string>
   <string name="changelog">更新日志</string>
-  <string name="help_and_faq">帮助与常见问题</string>
-  <string name="other_programs">开发者的其他应用</string>
+  <string name="help_and_faq">幫助與常見問題</string>
+  <string name="other_programs">開發者的其他應用</string>
 </resources>
