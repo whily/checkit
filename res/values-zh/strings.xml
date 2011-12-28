@@ -4,6 +4,8 @@
   <string name="about">关于</string>
   <string name="app_name">CheckIt</string>
   <string name="checklists">列表</string>
+  <string name="delete">删除</string>
+  <string name="edit">编辑</string>
   <string name="help">帮助</string>	
   <string name="settings">设置</string> 
   <string name="uncheck_all">取消所有选中</string>   
