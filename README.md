@@ -23,6 +23,7 @@ Development
 -----------
 
 The following tools are needed to build CheckIt from source:
+
 * JDK version 6/7 from <http://www.java.com> if Java is not available. 
   Note that JDK is preinstalled on Mac OS X and available via package manager
   on many Linux systems. 
