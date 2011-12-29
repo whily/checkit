@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--  Activity CheckActivity -->
+  <item type="id" name="uncheck_all" />
+  <item type="id" name="settings" />
+  <item type="id" name="about" />
+  <item type="id" name="edit" />
+  <item type="id" name="delete" />
+</resources>
