@@ -28,7 +28,6 @@ import android.widget.CheckedTextView;
 public class CheckActivity extends ListActivity {
   private ArrayAdapter<String> arrayAdapter;
 
-  /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

@@ -10,5 +10,21 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawSelectorOnTop="false"/>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/entry"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" 
+        android:hint="@string/add_entry_hint" />
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add" />
+  </LinearLayout>
 </LinearLayout>
 

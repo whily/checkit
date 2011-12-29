@@ -2,6 +2,8 @@
 <resources>
   <!--  Activity CheckActivity -->
   <string name="about">關於</string>
+  <string name="add">添加</string>
+  <string name="add_entry_hint">輸入添加條目</string>
   <string name="app_name">CheckIt</string>
   <string name="checklists">列表</string>
   <string name="delete">删除</string>
