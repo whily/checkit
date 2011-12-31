@@ -3,28 +3,33 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingLeft="8dp"
-              android:paddingRight="8dp">
+              android:padding="8dp">
   <ListView android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawSelectorOnTop="false"/>
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-    <EditText
-        android:id="@+id/entry"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" 
-        android:hint="@string/add_entry_hint" />
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp">
     <Button
         android:id="@+id/add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add" />
-  </LinearLayout>
+        android:text="@string/add" 
+        android:onClick="onAddButtonClick" />
+    <EditText
+        android:id="@+id/entry"
+        android:layout_toLeftOf="@id/add"
+        android:layout_alignTop="@id/add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" 
+        android:autoText="true"
+        android:hint="@string/add_entry_hint" />
+  </RelativeLayout>
 </LinearLayout>
 
