@@ -11,12 +11,16 @@
 
 package net.whily.android.checkit;
 
+import java.util.*;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.inputmethod.EditorInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,14 +31,14 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.CheckedTextView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class CheckActivity extends ListActivity {
-  // Each string is prepended one character: 1/0 denote the item is 
-  // checked/unchecked.
-  private String[] items;
+  private List<CheckedItem> items;
   private Button addButton;
   private EditText entry;
   private ListView list;
@@ -44,9 +48,10 @@ public class CheckActivity extends ListActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.check);
 
-    items = getResources().getStringArray(R.array.travel_list);
-    for (int i = 0; i < items.length; ++i) {
-      items[i] = "0" + items[i];
+    String[] itemStrings = getResources().getStringArray(R.array.travel_list);
+    items = new ArrayList<CheckedItem>();
+    for (String itemString : itemStrings) {
+      items.add(new CheckedItem(itemString));
     }
     setListAdapter(new CheckAdapter());
     list = (ListView)getListView();
@@ -56,11 +61,27 @@ public class CheckActivity extends ListActivity {
     addButton.setEnabled(false);
 
     entry = (EditText)findViewById(R.id.entry);
-    entry.setOnKeyListener(new OnKeyListener() {
+    entry.addTextChangedListener(new TextWatcher() {
+         @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+          addButton.setEnabled(entry.getText().length() > 0);    
+        }        
+
         @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-          addButton.setEnabled(entry.getText().length() > 0);
-          return false;
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+      });
+    entry.setOnEditorActionListener(new OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+          if (actionId == EditorInfo.IME_ACTION_GO) {
+            onAddButtonClick(addButton);
+          }
+          return true;
         }
       });
   }
@@ -80,11 +101,10 @@ public class CheckActivity extends ListActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch(item.getItemId()) {
       case R.id.uncheck_all:
-        for (int i = 0; i < items.length; ++i) {
-          items[i] = "0" + items[i].substring(1);
+        for (int i = 0; i < items.size(); ++i) {
+          items.set(i, new CheckedItem(items.get(i).getText()));
         }
-        // TODO: currently the checked items are not unchecked until scrolling.
-        list.invalidate();
+        list.invalidateViews();
         return true;
         
       case R.id.settings:
@@ -103,12 +123,9 @@ public class CheckActivity extends ListActivity {
   //@Override
   protected void onListItemClick(ListView l, View v, int position, long id)
   {
-    // Toggle 0/1.
-    if (items[position].startsWith("0")) {
-      items[position] = "1" + items[position].substring(1);
-    } else {
-      items[position] = "0" + items[position].substring(1);
-    }
+    CheckedItem item = items.get(position);
+    item.toggle();
+    items.set(position, item);
     CheckedTextView textView = (CheckedTextView)v;
     textView.toggle();
 
@@ -128,27 +145,35 @@ public class CheckActivity extends ListActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch (item.getItemId()) {
       case R.id.edit:
-        editItem(info.id);
+        editItem(info.position);
         return true;
       case R.id.delete:
-        deleteItem(info.id);
+        deleteItem(info.position);
         return true;
       default:
         return super.onContextItemSelected(item);
     }
   }
 
-  private void editItem(long id) {
+  private void editItem(int position) {
   }
 
-  private void deleteItem(long id) {
+  private void deleteItem(int position) {
+    items.remove(position);
+    list.invalidateViews();
   }
 
-  private void onAddButtonClick(View v) {
-    // TODO
+  public void onAddButtonClick(View v) {
+    // Check button status since this function is also called e.g. due
+    // to IME action.
+    if (addButton.isEnabled()) {
+      items.add(new CheckedItem(entry.getText().toString().trim()));
+      entry.setText("");
+      list.invalidateViews();
+    }
   }
 
-  class CheckAdapter extends ArrayAdapter<String> {
+  class CheckAdapter extends ArrayAdapter<CheckedItem> {
     CheckAdapter() {
       super(CheckActivity.this, android.R.layout.simple_list_item_checked, items); 
     }
@@ -161,10 +186,35 @@ public class CheckActivity extends ListActivity {
         row = inflater.inflate(android.R.layout.simple_list_item_checked, parent, false);
       }
       CheckedTextView textView = (CheckedTextView)row;
-      textView.setText(items[position].substring(1));
-      textView.setChecked(items[position].startsWith("1"));
+      textView.setText(items.get(position).getText());
+      textView.setChecked(items.get(position).isChecked());
 
       return textView;
+    }
+  }
+
+  class CheckedItem {
+    private String text;
+    private boolean checked = false;
+
+    CheckedItem(String text) {
+      this.text = text;
+    }
+
+    String getText() {
+      return text;
+    }
+
+    boolean isChecked() {
+      return checked;
+    }
+
+    void setChecked(boolean checked) {
+      this.checked = checked;
+    }
+
+    void toggle() {
+      checked = !checked;
     }
   }
 }
