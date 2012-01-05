@@ -170,6 +170,7 @@ public class CheckActivity extends ListActivity {
       items.add(new CheckedItem(entry.getText().toString().trim()));
       entry.setText("");
       list.invalidateViews();
+      list.smoothScrollToPosition(items.size() - 1);
     }
   }
 
