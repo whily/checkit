@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <!--  General string -->
+  <string name="cancel">取消</string>
+  <string name="ok">确定</string>
+
   <!--  Activity CheckActivity -->
   <string name="about">关于</string>
   <string name="add">添加</string>

@@ -13,6 +13,8 @@ package net.whily.android.checkit;
 
 import java.util.*;
 import android.app.ListActivity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -37,11 +39,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class CheckActivity extends ListActivity {
+public class CheckActivity extends ListActivity 
+  implements OnDialogDoneListener {
+  public static final String EDIT_DIALOG_TAG = "EDIT_DIALOG_TAG";
+
   private List<CheckedItem> items;
   private Button addButton;
   private EditText entry;
   private ListView list;
+  private int editPosition; // Save the position of the item to be editted.
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -62,13 +68,15 @@ public class CheckActivity extends ListActivity {
 
     entry = (EditText)findViewById(R.id.entry);
     entry.addTextChangedListener(new TextWatcher() {
-         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, 
+                                  int count) {
           addButton.setEnabled(entry.getText().length() > 0);    
         }        
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        public void beforeTextChanged(CharSequence s, int start, int count, 
+                                      int after) {
         }
         
         @Override
@@ -101,8 +109,8 @@ public class CheckActivity extends ListActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch(item.getItemId()) {
       case R.id.uncheck_all:
-        for (int i = 0; i < items.size(); ++i) {
-          items.set(i, new CheckedItem(items.get(i).getText()));
+        for (CheckedItem checkedItem : items) {
+          checkedItem.setChecked(false);
         }
         list.invalidateViews();
         return true;
@@ -123,9 +131,7 @@ public class CheckActivity extends ListActivity {
   //@Override
   protected void onListItemClick(ListView l, View v, int position, long id)
   {
-    CheckedItem item = items.get(position);
-    item.toggle();
-    items.set(position, item);
+    items.get(position).toggle();
     CheckedTextView textView = (CheckedTextView)v;
     textView.toggle();
 
@@ -156,6 +162,17 @@ public class CheckActivity extends ListActivity {
   }
 
   private void editItem(int position) {
+    editPosition = position;
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    PromptDialogFragment pdf = 
+      PromptDialogFragment.newInstance(items.get(position).getText());
+    pdf.show(ft, EDIT_DIALOG_TAG);
+  }
+
+  public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
+    if (!cancelled) {
+      items.get(editPosition).setText(message.toString().trim());
+    }
   }
 
   private void deleteItem(int position) {
@@ -184,7 +201,8 @@ public class CheckActivity extends ListActivity {
       View row = convertView;
       if (row == null) {
         LayoutInflater inflater = getLayoutInflater();
-        row = inflater.inflate(android.R.layout.simple_list_item_checked, parent, false);
+        row = inflater.inflate(android.R.layout.simple_list_item_checked, 
+                               parent, false);
       }
       CheckedTextView textView = (CheckedTextView)row;
       textView.setText(items.get(position).getText());
@@ -204,6 +222,10 @@ public class CheckActivity extends ListActivity {
 
     String getText() {
       return text;
+    }
+
+    void setText(String text) {
+      this.text = text;
     }
 
     boolean isChecked() {
