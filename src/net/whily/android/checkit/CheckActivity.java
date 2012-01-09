@@ -172,6 +172,7 @@ public class CheckActivity extends ListActivity
   public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
     if (!cancelled) {
       items.get(editPosition).setText(message.toString().trim());
+      list.invalidateViews();
     }
   }
 

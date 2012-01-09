@@ -11,19 +11,17 @@
 
 package net.whily.android.checkit;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 public class PromptDialogFragment extends DialogFragment
-  implements View.OnClickListener {
+  implements DialogInterface.OnClickListener {
   private EditText et;
 
   public static PromptDialogFragment newInstance(String text) {
@@ -35,14 +33,6 @@ public class PromptDialogFragment extends DialogFragment
   }
 
   @Override
-  public void onAttach(Activity act) {
-    // If attached activity has not implemented OnDialogDoneListener,
-    // the following line will throw ClassCastException.
-    OnDialogDoneListener test = (OnDialogDoneListener)act;
-    super.onAttach(act);
-  }
-
-  @Override
   public void onCreate(Bundle icicle) {
     super.onCreate(icicle);
     this.setCancelable(true);
@@ -51,15 +41,9 @@ public class PromptDialogFragment extends DialogFragment
     setStyle(style, theme);
   }
 
-  public View onCreateView(LayoutInflater inflater,
-                           ViewGroup container, Bundle icicle) {
-    getDialog().setTitle(getResources().getString(R.string.edit));
-
-    View v = inflater.inflate(R.layout.prompt, container, false);
-    Button cancelButton = (Button)v.findViewById(R.id.button_cancel);
-    cancelButton.setOnClickListener(this);
-    Button OKButton = (Button)v.findViewById(R.id.button_ok);
-    OKButton.setOnClickListener(this);
+  public Dialog onCreateDialog(Bundle icicle) {
+    LayoutInflater li = LayoutInflater.from(getActivity());
+    View v = li.inflate(R.layout.prompt, null);
     et = (EditText)v.findViewById(R.id.prompt_entry);
     if (icicle != null) {
       et.setText(icicle.getCharSequence("input"));
@@ -68,7 +52,16 @@ public class PromptDialogFragment extends DialogFragment
     }
     et.setSelectAllOnFocus(true);
 
-    return v;
+    // Use AlertDialog instead of building a normal dialog since I
+    // like the style of the former especially the TextView like
+    // OK/Cancel button.
+    AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+
+    b.setTitle(getResources().getString(R.string.edit));
+    b.setView(v);
+    b.setPositiveButton(getResources().getString(R.string.ok), this);
+    b.setNegativeButton(getResources().getString(R.string.cancel), this);
+    return b.create();
   }
 
   @Override
@@ -77,17 +70,9 @@ public class PromptDialogFragment extends DialogFragment
     super.onPause();
   }
 
-  public void onClick(View v) {
+  public void onClick(DialogInterface dialog, int which) {
     OnDialogDoneListener act = (OnDialogDoneListener)getActivity();
-    if (v.getId() == R.id.button_ok) {
-      act.onDialogDone(this.getTag(), false, et.getText());
-      dismiss();
-      return;
-    }
-    if (v.getId() == R.id.button_cancel) {
-      act.onDialogDone(this.getTag(), true, null);
-      dismiss();
-      return;
-    }
+    boolean cancelled = (which == AlertDialog.BUTTON_NEGATIVE);
+    act.onDialogDone(this.getTag(), cancelled, et.getText());
   }
 }
