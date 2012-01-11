@@ -55,13 +55,12 @@ public class PromptDialogFragment extends DialogFragment
     // Use AlertDialog instead of building a normal dialog since I
     // like the style of the former especially the TextView like
     // OK/Cancel button.
-    AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-
-    b.setTitle(getResources().getString(R.string.edit));
-    b.setView(v);
-    b.setPositiveButton(getResources().getString(R.string.ok), this);
-    b.setNegativeButton(getResources().getString(R.string.cancel), this);
-    return b.create();
+    return new AlertDialog.Builder(getActivity())
+      .setTitle(getResources().getString(R.string.edit))
+      .setView(v)
+      .setPositiveButton(getResources().getString(R.string.ok), this)
+      .setNegativeButton(getResources().getString(R.string.cancel), this)
+      .create();
   }
 
   @Override
