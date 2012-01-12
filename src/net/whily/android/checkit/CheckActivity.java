@@ -43,7 +43,7 @@ public class CheckActivity extends ListActivity
   implements OnDialogDoneListener {
   public static final String EDIT_DIALOG_TAG = "EDIT_DIALOG_TAG";
 
-  private List<CheckedItem> items;
+  private ArrayList<CheckedItem> items;
   private Button addButton;
   private EditText entry;
   private ListView list;
@@ -54,19 +54,23 @@ public class CheckActivity extends ListActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.check);
 
-    String[] itemStrings = getResources().getStringArray(R.array.travel_list);
-    items = new ArrayList<CheckedItem>();
-    for (String itemString : itemStrings) {
-      items.add(new CheckedItem(itemString));
+    if (savedInstanceState != null) {
+      items = savedInstanceState.getParcelableArrayList("items");
+    } else {
+      String[] itemStrings = getResources().getStringArray(R.array.travel_list);
+      items = new ArrayList<CheckedItem>();
+      for (String itemString : itemStrings) {
+        items.add(new CheckedItem(itemString));
+      }
     }
     setListAdapter(new CheckAdapter());
     list = (ListView)getListView();
     registerForContextMenu(list);
 
     addButton = (Button)findViewById(R.id.add);
-    addButton.setEnabled(false);
 
     entry = (EditText)findViewById(R.id.entry);
+    addButton.setEnabled(entry.getText().length() > 0);    
     entry.addTextChangedListener(new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, 
@@ -95,13 +99,14 @@ public class CheckActivity extends ListActivity
   }
 
   @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelableArrayList("items", items);
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    menu.add(0, R.id.uncheck_all, 0, R.string.uncheck_all)
-      .setIcon(android.R.drawable.ic_menu_close_clear_cancel);      
-    menu.add(0, R.id.settings, 0, R.string.settings)
-      .setIcon(android.R.drawable.ic_menu_preferences);
-    menu.add(0, R.id.about, 1, R.string.about)
-      .setIcon(android.R.drawable.ic_menu_info_details);
+    getMenuInflater().inflate(R.menu.check_options, menu);
     return super.onCreateOptionsMenu(menu);
   }
 
@@ -141,14 +146,12 @@ public class CheckActivity extends ListActivity
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
                                   ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(Menu.NONE, R.id.edit, Menu.NONE, R.string.edit);
-    menu.add(Menu.NONE, R.id.delete, Menu.NONE, R.string.delete);
+    getMenuInflater().inflate(R.menu.check_list_context, menu);
   }
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
     switch (item.getItemId()) {
       case R.id.edit:
         editItem(info.position);
@@ -210,35 +213,6 @@ public class CheckActivity extends ListActivity
       textView.setChecked(items.get(position).isChecked());
 
       return textView;
-    }
-  }
-
-  class CheckedItem {
-    private String text;
-    private boolean checked = false;
-
-    CheckedItem(String text) {
-      this.text = text;
-    }
-
-    String getText() {
-      return text;
-    }
-
-    void setText(String text) {
-      this.text = text;
-    }
-
-    boolean isChecked() {
-      return checked;
-    }
-
-    void setChecked(boolean checked) {
-      this.checked = checked;
-    }
-
-    void toggle() {
-      checked = !checked;
     }
   }
 }

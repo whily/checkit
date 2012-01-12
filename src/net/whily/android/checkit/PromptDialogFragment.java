@@ -56,10 +56,10 @@ public class PromptDialogFragment extends DialogFragment
     // like the style of the former especially the TextView like
     // OK/Cancel button.
     return new AlertDialog.Builder(getActivity())
-      .setTitle(getResources().getString(R.string.edit))
+      .setTitle(getString(R.string.edit))
       .setView(v)
-      .setPositiveButton(getResources().getString(R.string.ok), this)
-      .setNegativeButton(getResources().getString(R.string.cancel), this)
+      .setPositiveButton(getString(R.string.ok), this)
+      .setNegativeButton(getString(R.string.cancel), this)
       .create();
   }
 
