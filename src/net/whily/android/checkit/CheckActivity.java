@@ -12,6 +12,7 @@
 package net.whily.android.checkit;
 
 import java.util.*;
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -53,6 +54,8 @@ public class CheckActivity extends ListActivity
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.check);
+    ActionBar actionBar = getActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
 
     if (savedInstanceState != null) {
       items = savedInstanceState.getParcelableArrayList("items");
@@ -107,12 +110,19 @@ public class CheckActivity extends ListActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.check_options, menu);
-    return super.onCreateOptionsMenu(menu);
+    return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch(item.getItemId()) {
+      case android.R.id.home:
+        // App icon in action bar clicked; go home.
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        return true;
+
       case R.id.uncheck_all:
         for (CheckedItem checkedItem : items) {
           checkedItem.setChecked(false);
@@ -134,8 +144,7 @@ public class CheckActivity extends ListActivity
   }
     
   //@Override
-  protected void onListItemClick(ListView l, View v, int position, long id)
-  {
+  protected void onListItemClick(ListView l, View v, int position, long id) {
     items.get(position).toggle();
     CheckedTextView textView = (CheckedTextView)v;
     textView.toggle();
