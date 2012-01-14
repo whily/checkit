@@ -35,9 +35,12 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -49,6 +52,7 @@ public class CheckActivity extends ListActivity
   private Button addButton;
   private EditText entry;
   private ListView list;
+  private RelativeLayout rl;
   private int editPosition; // Save the position of the item to be editted.
 
   @Override
@@ -71,6 +75,7 @@ public class CheckActivity extends ListActivity
     list = (ListView)getListView();
     registerForContextMenu(list);
 
+    rl = (RelativeLayout)findViewById(R.id.add_entry_button);
     addButton = (Button)findViewById(R.id.add);
 
     entry = (EditText)findViewById(R.id.entry);
@@ -100,6 +105,8 @@ public class CheckActivity extends ListActivity
           return true;
         }
       });
+    
+    rl.setVisibility(View.GONE);
   }
 
   @Override
@@ -111,7 +118,23 @@ public class CheckActivity extends ListActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.check_options, menu);
-    return true;
+    CheckBox cb = (CheckBox)menu.findItem(R.id.add_switch).getActionView();
+    cb.setText(getString(R.string.add));
+    cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener () {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, 
+                                     boolean isChecked) {
+          if (isChecked) {
+            rl.setVisibility(View.VISIBLE);
+            entry.requestFocus();
+          }
+          else {
+            rl.setVisibility(View.GONE);
+          }
+        }
+      });
+
+    return super.onCreateOptionsMenu(menu);
   }
 
   @Override
