@@ -44,6 +44,9 @@ public class HomeActivity extends ListActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch(item.getItemId()) {
+      case R.id.new_list:
+        return true;
+
       case R.id.settings:
         startActivity(new Intent(this, SettingsActivity.class));
         return true;
