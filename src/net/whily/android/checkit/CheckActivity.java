@@ -16,6 +16,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -124,10 +125,16 @@ public class CheckActivity extends ListActivity
         return true;
 
       case R.id.uncheck_all:
-        for (CheckedItem checkedItem : items) {
-          checkedItem.setChecked(false);
-        }
-        list.invalidateViews();
+        Alert.show(this, R.string.uncheck_message, R.string.uncheck, 
+                   R.string.cancel,
+                   new DialogInterface.OnClickListener () {
+                     public void onClick(DialogInterface dialog, int id) {
+                       for (CheckedItem checkedItem : items) {
+                         checkedItem.setChecked(false);
+                       }
+                       list.invalidateViews();
+                     }
+                   });
         return true;
         
       case R.id.settings:

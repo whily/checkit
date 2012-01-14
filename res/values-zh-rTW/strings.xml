@@ -13,7 +13,9 @@
   <string name="edit">編輯</string>
   <string name="help">幫助</string>	
   <string name="settings">設定</string>    
-  <string name="uncheck_all">取消所有選中</string>
+  <string name="uncheck">清除</string>
+  <string name="uncheck_all">清除所有選中</string>   
+  <string name="uncheck_message">清除所有選中的项目？</string>
   <array name="travel_list">
     <item>備用眼鏡</item>
     <item>梳子</item>

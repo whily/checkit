@@ -13,7 +13,9 @@
   <string name="edit">Edit</string>
   <string name="help">Help</string>	
   <string name="settings">Settings</string>
+  <string name="uncheck">Uncheck</string>
   <string name="uncheck_all">Uncheck All</string>
+  <string name="uncheck_message">Uncheck all items?</string>
   <array name="travel_list">
     <item>backup glasses</item>
     <item>comb</item>
