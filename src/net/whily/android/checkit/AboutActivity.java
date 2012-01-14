@@ -24,14 +24,7 @@ public class AboutActivity extends Activity {
     setContentView(R.layout.about);
 
     browser = (WebView)findViewById(R.id.webkit);
-    String about = "<html>"
-      + "<body>" 
-      + "<center><h3>CheckIt v0.0.1</h3></center>"
-      + "<center><h4>Copyright (C) 2011-2012 Yujian Zhang</h4></center>" 
-      + "<center><h4>License: <a href=\"http://www.gnu.org/licenses/gpl-2.0.html\">GNU General Public License v2</a></h4></center>" 
-      + "</body>" 
-      + "</html>";
-    browser.loadData(about, "text/html", "UTF-8");
+    browser.loadData(getString(R.string.about_html), "text/html", "UTF-8");
   }
 }
 

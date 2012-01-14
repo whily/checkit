@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.inputmethod.EditorInfo;
@@ -43,6 +44,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
+import android.view.MenuInflater;
 
 public class CheckActivity extends ListActivity 
   implements OnDialogDoneListener {
@@ -73,7 +76,7 @@ public class CheckActivity extends ListActivity
     }
     setListAdapter(new CheckAdapter());
     list = (ListView)getListView();
-    registerForContextMenu(list);
+    list.setMultiChoiceModeListener(new ModeCallback());
 
     rl = (RelativeLayout)findViewById(R.id.add_entry_button);
     addButton = (Button)findViewById(R.id.add);
@@ -175,32 +178,12 @@ public class CheckActivity extends ListActivity
     
   //@Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    items.get(position).toggle();
-    CheckedTextView textView = (CheckedTextView)v;
-    textView.toggle();
-
+    CheckedItem item = items.get(position);
+    item.toggle();
+    CheckedTextView textView = (CheckedTextView)v.findViewById(R.id.checked_text);
+    textView.setChecked(item.isChecked());
+    
     super.onListItemClick(l, v, position, id);
-  }
-
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-                                  ContextMenuInfo menuInfo) {
-    getMenuInflater().inflate(R.menu.check_list_context, menu);
-  }
-
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-    switch (item.getItemId()) {
-      case R.id.edit:
-        editItem(info.position);
-        return true;
-      case R.id.delete:
-        deleteItem(info.position);
-        return true;
-      default:
-        return super.onContextItemSelected(item);
-    }
   }
 
   private void editItem(int position) {
@@ -218,9 +201,19 @@ public class CheckActivity extends ListActivity
     }
   }
 
-  private void deleteItem(int position) {
-    items.remove(position);
-    list.invalidateViews();
+  private void deleteItems(final List<Integer> positions) {
+    Alert.show(this, R.string.delete_message, R.string.delete, 
+               R.string.cancel,
+               new DialogInterface.OnClickListener () {
+                 public void onClick(DialogInterface dialog, int id) {
+                       Collections.sort(positions);
+                       Collections.reverse(positions);
+                       for (int position : positions) {
+                         items.remove(position);
+                       }
+                       list.invalidateViews();
+                 }
+               });
   }
 
   public void onAddButtonClick(View v) {
@@ -234,24 +227,92 @@ public class CheckActivity extends ListActivity
     }
   }
 
-  class CheckAdapter extends ArrayAdapter<CheckedItem> {
+  /**
+   * Highlight the row if it is selected.
+   */
+  private void highlightRow(View row, int position) {
+    if (items.get(position).isSelected()) {
+      row.setBackgroundResource(R.drawable.light_blue);
+    } else {
+      row.setBackgroundResource(0);
+    }
+  }
+
+  private class CheckAdapter extends ArrayAdapter<CheckedItem> {
     CheckAdapter() {
-      super(CheckActivity.this, android.R.layout.simple_list_item_checked, items); 
+      super(CheckActivity.this, R.layout.checked_item, items); 
     }
 
     public View getView(int position, View convertView,
                         ViewGroup parent) {
       View row = convertView;
       if (row == null) {
-        LayoutInflater inflater = getLayoutInflater();
-        row = inflater.inflate(android.R.layout.simple_list_item_checked, 
-                               parent, false);
+        row = getLayoutInflater().inflate(R.layout.checked_item, 
+                                          parent, false);
       }
-      CheckedTextView textView = (CheckedTextView)row;
+      CheckedTextView textView = (CheckedTextView)row.findViewById(R.id.checked_text);
       textView.setText(items.get(position).getText());
       textView.setChecked(items.get(position).isChecked());
+      highlightRow(row, position);
 
-      return textView;
+      return row;
+    }
+  }
+
+  private class ModeCallback implements ListView.MultiChoiceModeListener {
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+      getMenuInflater().inflate(R.menu.check_list_context, menu);
+      setTitle(mode);
+      setMenuItemVisibility(menu);
+      return true;
+    }
+
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+      return true;
+    }
+
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+      switch (item.getItemId()) {
+        case R.id.edit:
+          editItem(CheckedItem.getFirstSelectedPosition(items));
+          mode.finish();
+          break;
+        case R.id.delete:
+          deleteItems(CheckedItem.getSelectedPositions(items));
+          mode.finish();
+          break;
+        default:
+          break;
+      }
+      return true;
+    }
+
+    public void onDestroyActionMode(ActionMode mode) {
+      CheckedItem.clearSelectedAll(items);
+    }
+
+    public void onItemCheckedStateChanged(ActionMode mode,
+                                          int position, long id, boolean checked) {
+      items.get(position).setSelected(checked);
+      setMenuItemVisibility(mode.getMenu());
+      setTitle(mode);
+
+      getListView().invalidateViews();
+    }
+
+    private void setTitle(ActionMode mode) {
+      final int selectedCount = CheckedItem.getSelectedCount(items);
+      String title = 
+        (selectedCount == 0) 
+        ? "" 
+        : getString(R.string.item_selected_prefix) + selectedCount + getString(R.string.item_selected_postfix);
+      mode.setTitle(title);
+    }
+
+    private void setMenuItemVisibility(Menu menu) {
+      final int selectedCount = CheckedItem.getSelectedCount(items);
+      MenuItem editMenuItem = (MenuItem)menu.findItem(R.id.edit);
+      editMenuItem.setVisible(selectedCount == 1);
     }
   }
 }

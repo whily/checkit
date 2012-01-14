@@ -13,8 +13,11 @@
   <string name="add_entry_hint">Type item to add</string>
   <string name="app_name">CheckIt</string>
   <string name="delete">Delete</string>
+  <string name="delete_message">Delete selected items?</string>
   <string name="edit">Edit</string>
   <string name="help">Help</string>	
+  <string name="item_selected_prefix"></string>
+  <string name="item_selected_postfix">\u0020selected</string>
   <string name="settings">Settings</string>
   <string name="uncheck">Uncheck</string>
   <string name="uncheck_all">Uncheck All</string>
@@ -75,4 +78,15 @@
   <string name="changelog">Changelog</string>
   <string name="help_and_faq">Help &amp; FAQ</string>
   <string name="other_programs">Other programs</string>
+  <string name="about_html">
+    <![CDATA[
+    <html>
+      <body>
+        <center><h3>CheckIt v0.0.1</h3></center>
+        <center><h4>Copyright &copy; 2011-2012 Yujian Zhang</h4></center>
+        <center><h4>License: <a href="http://www.gnu.org/licenses/gpl-2.0.html">GNU General Public License v2</a></h4></center>
+      </body>
+    </html>
+    ]]>
+  </string>
 </resources>

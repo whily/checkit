@@ -13,8 +13,11 @@
   <string name="add_entry_hint">输入添加条目</string>
   <string name="app_name">CheckIt</string>
   <string name="delete">删除</string>
+  <string name="delete_message">删除所选项目?</string>
   <string name="edit">编辑</string>
   <string name="help">帮助</string>	
+  <string name="item_selected_prefix">已选中</string>
+  <string name="item_selected_postfix">项</string>
   <string name="settings">设置</string> 
   <string name="uncheck">清除</string>
   <string name="uncheck_all">清除所有选中</string>   

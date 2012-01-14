@@ -8,7 +8,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawSelectorOnTop="false"/>
+            android:drawSelectorOnTop="false" 
+            android:choiceMode="multipleChoiceModal" />
   <RelativeLayout 
       android:id="@+id/add_entry_button"
       android:layout_width="match_parent"

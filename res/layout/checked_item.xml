@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A LinearLayout wrapper is needed to disable the default Android behavior as
+     follows: 
+       When ListView attribute choiceMode is set to multipleChoiceModal, 
+       if a CheckedTextView is used directly as the row of ListView (e.g. by using 
+       simple_list_item_checked, check state of the row is totally controlled by Android,
+       e.g. one cannot toggle the checked state in onListItemClick.
+-->
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <CheckedTextView 
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/checked_text"
+      android:layout_width="match_parent"
+      android:layout_height="?android:attr/listPreferredItemHeightSmall"
+      android:textAppearance="?android:attr/textAppearanceListItemSmall"
+      android:gravity="center_vertical"
+      android:checkMark="?android:attr/textCheckMark"
+      android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+      android:paddingRight="?android:attr/listPreferredItemPaddingRight" />
+</LinearLayout>

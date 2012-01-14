@@ -11,12 +11,14 @@
 
 package net.whily.android.checkit;
 
+import java.util.*;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class CheckedItem implements Parcelable {
   private String text;
   private boolean checked;
+  private boolean selected;
 
   CheckedItem() {
     this("");
@@ -25,10 +27,15 @@ public class CheckedItem implements Parcelable {
   CheckedItem(String text) {
     this(text, false);
   }
-
+  
   CheckedItem(String text, boolean checked) {
+    this(text, checked, false);
+  }
+
+  CheckedItem(String text, boolean checked, boolean selected) {
     this.text = text;
     this.checked = checked;
+    this.selected = selected;
   }
 
   public String getText() {
@@ -47,6 +54,14 @@ public class CheckedItem implements Parcelable {
     this.checked = checked;
   }
 
+  public boolean isSelected() {
+    return selected;
+  }
+
+  public void setSelected(boolean selected) {
+    this.selected = selected;
+  }
+
   public int describeContents() {
     return 0;
   }
@@ -56,8 +71,48 @@ public class CheckedItem implements Parcelable {
   }
 
   public String toString() {
-    String prefix = checked ? "1" : "0";
-    return prefix + text;
+    String checkedPrefix = checked ? "1" : "0";
+    String selectedPrefix = selected? "1" : "0";
+    return checkedPrefix + selectedPrefix + text;
+  }
+
+  void toggle() {
+    checked = !checked;
+  }
+
+  public static void clearSelectedAll(List<CheckedItem> items) {
+    for (CheckedItem item : items) {
+      item.setSelected(false);
+    }
+  }
+
+  public static int getSelectedCount(List<CheckedItem> items) {
+    int result = 0;
+    for (CheckedItem item : items) {
+      if (item.isSelected()) {
+        result++;
+      }
+    }
+    return result;
+  }
+
+  public static int getFirstSelectedPosition(List<CheckedItem> items) {
+    for (int i = 0; i < items.size(); ++i) {
+      if (items.get(i).isSelected()) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public static List<Integer> getSelectedPositions(List<CheckedItem> items) {
+    List<Integer> positions = new LinkedList<Integer>();
+    for (int i = 0; i < items.size(); ++i) {
+      if (items.get(i).isSelected()) {
+        positions.add(i);
+      }
+    }
+    return positions;
   }
 
   public static final Parcelable.Creator<CheckedItem> CREATOR
@@ -72,13 +127,11 @@ public class CheckedItem implements Parcelable {
   };
 
   public static CheckedItem parse(String string) {
-    String prefix = string.substring(0, 1);
-    String text = string.substring(1);
-    boolean checked = prefix.equals("1");
-    return new CheckedItem(text, checked);
-  }
-
-  void toggle() {
-    checked = !checked;
+    String checkedPrefix = string.substring(0, 1);
+    String selectedPrefix = string.substring(1, 2);
+    String text = string.substring(2);
+    boolean checked = checkedPrefix.equals("1");
+    boolean selected = selectedPrefix.equals("1");
+    return new CheckedItem(text, checked, selected);
   }
 }
