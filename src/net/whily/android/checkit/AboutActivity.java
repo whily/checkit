@@ -6,7 +6,7 @@
  * License: 
  *   GNU General Public License v2
  *   http://www.gnu.org/licenses/gpl-2.0.html
- * Copyright (C) 2011 Yujian Zhang
+ * Copyright (C) 2011-2012 Yujian Zhang
  */
 
 package net.whily.android.checkit;
@@ -27,7 +27,7 @@ public class AboutActivity extends Activity {
     String about = "<html>"
       + "<body>" 
       + "<center><h3>CheckIt v0.0.1</h3></center>"
-      + "<center><h4>Copyright (C) 2011 Yujian Zhang</h4></center>" 
+      + "<center><h4>Copyright (C) 2011-2012 Yujian Zhang</h4></center>" 
       + "<center><h4>License: <a href=\"http://www.gnu.org/licenses/gpl-2.0.html\">GNU General Public License v2</a></h4></center>" 
       + "</body>" 
       + "</html>";
