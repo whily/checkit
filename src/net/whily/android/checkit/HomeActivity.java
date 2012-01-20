@@ -1,3 +1,4 @@
+
 /**
  * List activity for CheckIt.
  *
@@ -12,6 +13,7 @@
 package net.whily.android.checkit;
 
 import java.util.*;
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +33,8 @@ public class HomeActivity extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.home);
+    ActionBar actionBar = getActionBar();
+    actionBar.setHomeButtonEnabled(true);
 
     setListAdapter(new ListAdapter());
   }
@@ -44,15 +48,16 @@ public class HomeActivity extends ListActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch(item.getItemId()) {
+      case android.R.id.home:
+      case R.id.about:
+        startActivity(new Intent(this, AboutActivity.class));
+        return true;
+
       case R.id.new_list:
         return true;
 
       case R.id.settings:
         startActivity(new Intent(this, SettingsActivity.class));
-        return true;
-
-      case R.id.about:
-        startActivity(new Intent(this, AboutActivity.class));
         return true;
 
       default:
