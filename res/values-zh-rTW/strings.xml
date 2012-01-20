@@ -12,13 +12,13 @@
   <string name="add">添加</string>
   <string name="add_entry_hint">輸入添加條目</string>
   <string name="app_name">CheckIt</string>
-  <string name="delete">删除</string>
+  <string name="delete">刪除</string>
   <string name="delete_message">刪除所選項目?</string>
   <string name="edit">編輯</string>
   <string name="help">幫助</string>	
   <string name="item_selected_prefix">已選中</string>
   <string name="item_selected_postfix">項</string>
-  <string name="settings">設定</string>    
+  <string name="settings">設置</string> 
   <string name="uncheck">清除</string>
   <string name="uncheck_all">清除所有選中</string>   
   <string name="uncheck_message">清除所有選中的項目？</string>
@@ -30,19 +30,19 @@
     <item>拖鞋</item>
     <item>護照</item>
     <item>機票</item>
-    <item>數據線</item>
+    <item>數據綫</item>
     <item>毛巾</item>
     <item>傘</item>
     <item>轉換插座</item>
     <item>藥</item>
     <item>書</item>
   </array>
-
+  
   <!--  Activity Settings -->
   <string name="appearance_preference">外觀</string>
-  <string name="theme_title_preference">主题</string>
-  <string name="theme_summary_preference">主题</string>
-  <string name="theme_dialog_title_preference">主题</string>
+  <string name="theme_title_preference">主題</string>
+  <string name="theme_summary_preference">主題</string>
+  <string name="theme_dialog_title_preference">主題</string>
   <array name="theme_entries_preference">
     <item>亮</item>
     <item>暗</item>
@@ -65,8 +65,9 @@
   </string>    
   
   <!-- Activity About -->
-  <string name="whats_new">更新内容</string>
-  <string name="changelog">更新日志</string>
+  <string name="whats_new">更新內容</string>
+  <string name="changelog">更新日誌</string>
   <string name="help_and_faq">幫助與常見問題</string>
   <string name="other_programs">開發者的其他應用</string>
 </resources>
+
