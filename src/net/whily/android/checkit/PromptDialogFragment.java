@@ -20,7 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-public class PromptDialogFragment extends DialogFragment
+public final class PromptDialogFragment extends DialogFragment
   implements DialogInterface.OnClickListener {
   private EditText et;
 

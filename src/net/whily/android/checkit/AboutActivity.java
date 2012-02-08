@@ -15,8 +15,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-public class AboutActivity extends Activity {
-  WebView browser;
+public final class AboutActivity extends Activity {
+  private WebView browser;
 
   @Override
   public void onCreate(Bundle icicle) {

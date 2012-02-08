@@ -38,7 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class CheckActivity extends ListActivity 
+public final class CheckActivity extends ListActivity 
   implements OnDialogDoneListener {
   public static final String EDIT_DIALOG_TAG = "EDIT_DIALOG_TAG";
 
@@ -229,7 +229,7 @@ public class CheckActivity extends ListActivity
     }
   }
 
-  private class CheckAdapter extends ArrayAdapter<CheckedItem> {
+  private final class CheckAdapter extends ArrayAdapter<CheckedItem> {
     CheckAdapter() {
       super(CheckActivity.this, R.layout.checked_item, items); 
     }
@@ -250,7 +250,7 @@ public class CheckActivity extends ListActivity
     }
   }
 
-  private class ModeCallback implements ListView.MultiChoiceModeListener {
+  private final class ModeCallback implements ListView.MultiChoiceModeListener {
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
       getMenuInflater().inflate(R.menu.check_list_context, menu);
       setTitle(mode);
@@ -291,7 +291,7 @@ public class CheckActivity extends ListActivity
       getListView().invalidateViews();
     }
 
-    private void setTitle(ActionMode mode) {
+    private final void setTitle(ActionMode mode) {
       final int selectedCount = CheckedItem.getSelectedCount(items);
       String title = 
         (selectedCount == 0) 
@@ -300,7 +300,7 @@ public class CheckActivity extends ListActivity
       mode.setTitle(title);
     }
 
-    private void setMenuItemVisibility(Menu menu) {
+    private final void setMenuItemVisibility(Menu menu) {
       final int selectedCount = CheckedItem.getSelectedCount(items);
       MenuItem editMenuItem = (MenuItem)menu.findItem(R.id.edit);
       editMenuItem.setVisible(selectedCount == 1);

@@ -15,7 +15,7 @@ import java.util.*;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CheckedItem implements Parcelable {
+public final class CheckedItem implements Parcelable {
   private String text;
   private boolean checked;
   private boolean selected;

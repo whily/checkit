@@ -26,7 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class HomeActivity extends ListActivity {
+public final class HomeActivity extends ListActivity {
   private ArrayList<String> lists = new ArrayList<String>(Arrays.asList("first"));
 
   @Override
@@ -71,7 +71,7 @@ public class HomeActivity extends ListActivity {
     super.onListItemClick(l, v, position, id);
   }
 
-  class ListAdapter extends ArrayAdapter<String> {
+  private final class ListAdapter extends ArrayAdapter<String> {
     ListAdapter() {
       super(HomeActivity.this, android.R.layout.simple_list_item_2, lists);
     }
