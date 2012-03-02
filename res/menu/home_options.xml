@@ -4,6 +4,10 @@
         android:title="@string/new_list" 
         android:icon="@android:drawable/ic_menu_add" 
         android:showAsAction="ifRoom" />
+  <item android:id="@+id/template_list"
+        android:title="@string/template_list" 
+        android:icon="@android:drawable/ic_menu_day" 
+        android:showAsAction="ifRoom" />
   <item android:id="@+id/settings"
         android:title="@string/settings" 
         android:icon="@android:drawable/ic_menu_preferences" />

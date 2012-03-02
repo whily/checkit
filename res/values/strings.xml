@@ -6,6 +6,9 @@
 
   <!-- Activity HomeActivity -->
   <string name="new_list">New</string>
+  <string name="template_list">Template</string>
+  <string name="edit_title">Edit title</string>
+  <string name="delete_checklists">Delete selected checklists?</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">About</string>

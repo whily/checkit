@@ -6,6 +6,9 @@
 
   <!-- Activity HomeActivity -->
   <string name="new_list">新建</string>
+  <string name="template_list">模板</string>
+  <string name="edit_title">编辑标题</string>
+  <string name="delete_checklists">删除所选列表?</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">关于</string>

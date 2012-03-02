@@ -80,6 +80,32 @@ public final class CheckedItem implements Parcelable {
     checked = !checked;
   }
 
+  // For serialize and deserialize, we consider field "selected" to
+  // reuse existing code.
+
+  public static String serialize(List<CheckedItem> items) {
+    StringBuilder result = new StringBuilder();
+    String separator = " , "; // This ensures that we can split in a simple way.
+    for (CheckedItem item : items) {
+      String s = item.toString();
+      result.append(s.replace(",", ",,"));
+      result.append(separator);
+    }
+    result.delete(result.length() - separator.length(), result.length());
+    return result.toString();
+  }
+
+  public static ArrayList<CheckedItem> deserialize(String str) {
+    ArrayList<CheckedItem> items = new ArrayList<CheckedItem>();
+    for (String s : str.split("\\s+,\\s+")) {
+      CheckedItem item = parse(s.replace(",,", ","));
+      item.setSelected(false);
+      items.add(item);
+    }
+    
+    return items;
+  }
+
   public static void clearSelectedAll(List<CheckedItem> items) {
     for (CheckedItem item : items) {
       item.setSelected(false);

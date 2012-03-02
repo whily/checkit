@@ -15,11 +15,15 @@ import java.util.*;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.inputmethod.EditorInfo;
 import android.view.KeyEvent;
@@ -40,7 +44,25 @@ import android.widget.TextView.OnEditorActionListener;
 
 public final class CheckActivity extends ListActivity 
   implements OnDialogDoneListener {
+  private static final String TAG = "CheckActivity";
+
   public static final String EDIT_DIALOG_TAG = "EDIT_DIALOG_TAG";
+
+  // The activity can be started by several actions.
+  private static final int STATE_EDIT = 0;
+  private static final int STATE_INSERT = 1;
+  private int state;
+
+  private boolean resumeFromSaved;
+
+  private Uri uri;
+  private Cursor cursor;
+  private static final String[] PROJECTION =
+    new String[] {
+    ChecklistMetadata.Checklists._ID,
+    ChecklistMetadata.Checklists.COLUMN_TITLE,
+    ChecklistMetadata.Checklists.COLUMN_CONTENT
+  };
 
   private ArrayList<CheckedItem> items;
   private Button addButton;
@@ -52,18 +74,41 @@ public final class CheckActivity extends ListActivity
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    final Intent intent = getIntent();
+    final String action = intent.getAction();
+
+    if (Intent.ACTION_EDIT.equals(action)) {
+      state = STATE_EDIT;
+      uri = intent.getData();
+    } else if (Intent.ACTION_INSERT.equals(action)) {
+      state = STATE_INSERT;
+      uri = getContentResolver().insert(intent.getData(), null);
+      if (uri == null) {
+        Log.e(TAG, "Failed to insert new checklist into " + getIntent().getData());
+        finish();     // Close activity.
+        return;
+      }
+      setResult(RESULT_OK, (new Intent()).setAction(uri.toString()));
+    } else {
+      Log.e(TAG, "Unknown action, exiting.");
+      finish();
+      return;  // Return RESULT_CANCELED to originating activity.
+    }
+
+    cursor = managedQuery(uri, PROJECTION, null, null, null);
+
     setContentView(R.layout.check);
     ActionBar actionBar = getActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
 
     if (savedInstanceState != null) {
       items = savedInstanceState.getParcelableArrayList("items");
+      resumeFromSaved = true;
     } else {
-      String[] itemStrings = getResources().getStringArray(R.array.travel_list);
-      items = new ArrayList<CheckedItem>();
-      for (String itemString : itemStrings) {
-        items.add(new CheckedItem(itemString));
-      }
+      cursor.moveToFirst();
+      items = refreshItems();
+      resumeFromSaved = false;
     }
     setListAdapter(new CheckAdapter());
     list = (ListView)getListView();
@@ -101,6 +146,45 @@ public final class CheckActivity extends ListActivity
       });
     
     rl.setVisibility(View.GONE);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    if (cursor != null) {
+      cursor.requery();
+      cursor.moveToFirst();
+      if (state == STATE_EDIT) {
+      } else if (state == STATE_INSERT) {
+      }
+
+      // String[] itemStrings = getResources().getStringArray(R.array.travel_list);
+      // items = new ArrayList<CheckedItem>();
+      // for (String itemString : itemStrings) {
+      //  items.add(new CheckedItem(itemString));
+      // }
+      if (resumeFromSaved) {
+        resumeFromSaved = false;
+      } else {
+        items = refreshItems();
+        // Update adapter since items are changed.
+        setListAdapter(new CheckAdapter()); 
+      }
+    }
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    if (cursor != null) {
+      if (state == STATE_EDIT) {
+        updateChecklist("title", CheckedItem.serialize(items));
+      } else if (state == STATE_INSERT) {
+        updateChecklist("title", CheckedItem.serialize(items));
+        state = STATE_EDIT;
+      }
+    }
   }
 
   @Override
@@ -149,7 +233,7 @@ public final class CheckActivity extends ListActivity
                        for (CheckedItem checkedItem : items) {
                          checkedItem.setChecked(false);
                        }
-                       list.invalidateViews();
+                       refreshListView();
                      }
                    });
         return true;
@@ -188,7 +272,7 @@ public final class CheckActivity extends ListActivity
   public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
     if (!cancelled) {
       items.get(editPosition).setText(message.toString().trim());
-      list.invalidateViews();
+      refreshListView();
     }
   }
 
@@ -202,9 +286,15 @@ public final class CheckActivity extends ListActivity
                        for (int position : positions) {
                          items.remove(position);
                        }
-                       list.invalidateViews();
+                       refreshListView();
                  }
                });
+  }
+
+  private ArrayList<CheckedItem> refreshItems() {
+    int columnContentIndex = cursor.getColumnIndex(ChecklistMetadata.Checklists.COLUMN_CONTENT);
+    String content = cursor.getString(columnContentIndex);
+    return CheckedItem.deserialize(content);
   }
 
   public void onAddButtonClick(View v) {
@@ -213,7 +303,7 @@ public final class CheckActivity extends ListActivity
     if (addButton.isEnabled()) {
       items.add(new CheckedItem(entry.getText().toString().trim()));
       entry.setText("");
-      list.invalidateViews();
+      refreshListView();
       list.smoothScrollToPosition(items.size() - 1);
     }
   }
@@ -227,6 +317,21 @@ public final class CheckActivity extends ListActivity
     } else {
       row.setBackgroundResource(0);
     }
+  }
+
+  /**
+   * Update the checklist.
+   */
+  private final void updateChecklist(String title, String content) {
+    ContentValues values = new ContentValues();
+    values.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
+    values.put(ChecklistMetadata.Checklists.COLUMN_CONTENT, content);
+    getContentResolver().update(uri, values, null, null);
+  }
+
+  private void refreshListView() {
+    CheckAdapter adapter = (CheckAdapter)list.getAdapter();
+    adapter.notifyDataSetChanged();
   }
 
   private final class CheckAdapter extends ArrayAdapter<CheckedItem> {
@@ -288,7 +393,7 @@ public final class CheckActivity extends ListActivity
       setMenuItemVisibility(mode.getMenu());
       setTitle(mode);
 
-      getListView().invalidateViews();
+      refreshListView();
     }
 
     private final void setTitle(ActionMode mode) {
