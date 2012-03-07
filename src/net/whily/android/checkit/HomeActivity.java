@@ -16,6 +16,7 @@ import java.util.*;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -76,13 +77,13 @@ public final class HomeActivity extends ListActivity {
                                  ChecklistMetadata.Checklists.DEFAULT_SORT_ORDER);
     String[] dataColumns = { ChecklistMetadata.Checklists.COLUMN_TITLE };
     int[] viewIDs = { android.R.id.text1 };
-    SimpleCursorAdapter adapter
-      = new SimpleCursorAdapter(this,
-                                android.R.layout.simple_list_item_1,
-                                cursor,
-                                dataColumns,
-                                viewIDs
-                                );
+    HighlightCursorAdapter adapter
+      = new HighlightCursorAdapter(this,
+                                   android.R.layout.simple_list_item_1,
+                                   cursor,
+                                   dataColumns,
+                                   viewIDs
+                                   );
     setListAdapter(adapter);
     list = (ListView)getListView();
     list.setMultiChoiceModeListener(new ModeCallback());
@@ -204,6 +205,25 @@ public final class HomeActivity extends ListActivity {
       final int selectedCount = selectedIds.size();
       MenuItem editMenuItem = (MenuItem)menu.findItem(R.id.edit_title);
       editMenuItem.setVisible(selectedCount == 1);
+    }
+  }
+
+  class HighlightCursorAdapter extends SimpleCursorAdapter {
+    HighlightCursorAdapter(Context context, int layout, Cursor c, 
+                           String[] from, int[] to) {
+      super(context, layout, c, from, to);
+    }
+
+    @Override
+    public View getView (int position, View convertView, ViewGroup parent) {
+      View view = super.getView(position, convertView, parent);
+      long id = getItemId(position);
+      if (selectedIds.contains(id)) {
+        view.setBackgroundResource(R.drawable.light_blue);
+      } else {
+        view.setBackgroundResource(0);
+      }
+      return view;
     }
   }
 }
