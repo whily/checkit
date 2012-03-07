@@ -159,6 +159,10 @@ public final class CheckActivity extends ListActivity
       } else if (state == STATE_INSERT) {
       }
 
+      int columnTitleIndex = cursor.getColumnIndex(ChecklistMetadata.Checklists.COLUMN_TITLE);
+      String title = cursor.getString(columnTitleIndex);
+      setTitle(title);
+
       // String[] itemStrings = getResources().getStringArray(R.array.travel_list);
       // items = new ArrayList<CheckedItem>();
       // for (String itemString : itemStrings) {
