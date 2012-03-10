@@ -48,12 +48,10 @@ public final class CheckActivity extends ListActivity
 
   public static final String EDIT_DIALOG_TAG = "EDIT_DIALOG_TAG";
 
-  // The activity can be started by several actions.
-  private static final int STATE_EDIT = 0;
-  private static final int STATE_INSERT = 1;
-  private int state;
-
   private boolean resumeFromSaved;
+
+  // Indicate whether the list content is modified since last onPause().
+  private boolean modified = false;
 
   private Uri uri;
   private Cursor cursor;
@@ -79,17 +77,7 @@ public final class CheckActivity extends ListActivity
     final String action = intent.getAction();
 
     if (Intent.ACTION_EDIT.equals(action)) {
-      state = STATE_EDIT;
       uri = intent.getData();
-    } else if (Intent.ACTION_INSERT.equals(action)) {
-      state = STATE_INSERT;
-      uri = getContentResolver().insert(intent.getData(), null);
-      if (uri == null) {
-        Log.e(TAG, "Failed to insert new checklist into " + getIntent().getData());
-        finish();     // Close activity.
-        return;
-      }
-      setResult(RESULT_OK, (new Intent()).setAction(uri.toString()));
     } else {
       Log.e(TAG, "Unknown action, exiting.");
       finish();
@@ -155,9 +143,6 @@ public final class CheckActivity extends ListActivity
     if (cursor != null) {
       cursor.requery();
       cursor.moveToFirst();
-      if (state == STATE_EDIT) {
-      } else if (state == STATE_INSERT) {
-      }
 
       int columnTitleIndex = cursor.getColumnIndex(ChecklistMetadata.Checklists.COLUMN_TITLE);
       String title = cursor.getString(columnTitleIndex);
@@ -182,11 +167,9 @@ public final class CheckActivity extends ListActivity
   protected void onPause() {
     super.onPause();
     if (cursor != null) {
-      if (state == STATE_EDIT) {
-        updateChecklist("title", CheckedItem.serialize(items));
-      } else if (state == STATE_INSERT) {
-        updateChecklist("title", CheckedItem.serialize(items));
-        state = STATE_EDIT;
+      if (modified) {
+        updateChecklist(CheckedItem.serialize(items));
+        modified = false;
       }
     }
   }
@@ -238,6 +221,7 @@ public final class CheckActivity extends ListActivity
                          checkedItem.setChecked(false);
                        }
                        refreshListView();
+                       modified = true;
                      }
                    });
         return true;
@@ -261,6 +245,7 @@ public final class CheckActivity extends ListActivity
     item.toggle();
     CheckedTextView textView = (CheckedTextView)v.findViewById(R.id.checked_text);
     textView.setChecked(item.isChecked());
+    modified = true;
     
     super.onListItemClick(l, v, position, id);
   }
@@ -269,7 +254,8 @@ public final class CheckActivity extends ListActivity
     editPosition = position;
     FragmentTransaction ft = getFragmentManager().beginTransaction();
     PromptDialogFragment pdf = 
-      PromptDialogFragment.newInstance(items.get(position).getText());
+      PromptDialogFragment.newInstance(R.string.edit, 
+                                       items.get(position).getText());
     pdf.show(ft, EDIT_DIALOG_TAG);
   }
 
@@ -277,6 +263,7 @@ public final class CheckActivity extends ListActivity
     if (!cancelled) {
       items.get(editPosition).setText(message.toString().trim());
       refreshListView();
+      modified = true;
     }
   }
 
@@ -291,6 +278,7 @@ public final class CheckActivity extends ListActivity
                          items.remove(position);
                        }
                        refreshListView();
+                       modified = true;
                  }
                });
   }
@@ -309,6 +297,7 @@ public final class CheckActivity extends ListActivity
       entry.setText("");
       refreshListView();
       list.smoothScrollToPosition(items.size() - 1);
+      modified = true;
     }
   }
 
@@ -326,9 +315,8 @@ public final class CheckActivity extends ListActivity
   /**
    * Update the checklist.
    */
-  private final void updateChecklist(String title, String content) {
+  private final void updateChecklist(String content) {
     ContentValues values = new ContentValues();
-    values.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
     values.put(ChecklistMetadata.Checklists.COLUMN_CONTENT, content);
     getContentResolver().update(uri, values, null, null);
   }

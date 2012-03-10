@@ -14,8 +14,10 @@ package net.whily.android.checkit;
 
 import java.util.*;
 import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +36,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public final class HomeActivity extends ListActivity {
+public final class HomeActivity extends ListActivity 
+  implements OnDialogDoneListener {
   private static final String TAG = "HomeActivity";
 
   private ArrayList<String> lists = new ArrayList<String>(Arrays.asList("first"));
@@ -45,7 +48,12 @@ public final class HomeActivity extends ListActivity {
 
   private ListView list;
 
+  private Uri selectedUri;
+
   private HashSet<Long> selectedIds;
+
+  public static final String EDIT_TITLE_DIALOG_TAG = "EDIT_TITLE_DIALOG";
+  public static final String NEW_TITLE_DIALOG_TAG = "NEW_TITLE_DIALG";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -115,7 +123,7 @@ public final class HomeActivity extends ListActivity {
         return true;
 
       case R.id.new_list:
-        startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
+        newChecklist();
         return true;
 
       case R.id.template_list:
@@ -136,13 +144,74 @@ public final class HomeActivity extends ListActivity {
     startActivity(new Intent(Intent.ACTION_EDIT, uri));
   }
 
+  private void editChecklistTitle() {
+    String title = getSelectedChecklistTitle();
+    // Save the URI since selectedIds will be cleard when the dialog is shown.
+    selectedUri = getSelectedUri(); 
+
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    PromptDialogFragment pdf 
+      = PromptDialogFragment.newInstance(R.string.edit_title, title);
+    pdf.show(ft, EDIT_TITLE_DIALOG_TAG);
+  }
+
+  private void newChecklist() {
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    PromptDialogFragment pdf 
+      = PromptDialogFragment.newInstance(R.string.edit_title, 
+                                         getString(R.string.title));
+    pdf.show(ft, NEW_TITLE_DIALOG_TAG);    
+  }
+
+  private String getSelectedChecklistTitle() {
+    Uri uri = getSelectedUri();
+    Cursor c = managedQuery(uri, null, null, null, null);
+    int titleIndex = c.getColumnIndex(ChecklistMetadata.Checklists.COLUMN_TITLE);
+    c.moveToFirst();
+    return c.getString(titleIndex);
+  }
+
+  // Return the id of the first selected checklist.
+  private long getSelectedId() {
+    return ((Long)(selectedIds.toArray()[0])).longValue();
+  }
+
+  // Return the uri of the first selected checklist.
+  private Uri getSelectedUri() {
+    return ContentUris.withAppendedId(getIntent().getData(), getSelectedId());
+  }
+
+  public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
+    if (!cancelled) {
+      String title = message.toString().trim();
+      ContentValues cv = new ContentValues();
+      cv.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
+      if (tag.equals(EDIT_TITLE_DIALOG_TAG)) {
+        getContentResolver().update(selectedUri, cv, null, null);
+      } else if (tag.equals(NEW_TITLE_DIALOG_TAG)) {
+        Uri uri = getContentResolver().insert(getIntent().getData(), cv);
+        if (uri == null) {
+          Log.e(TAG, "Failed to insert new checklist into " + getIntent().getData());
+          finish();     // Close activity.
+          return;
+        }
+        startActivity(new Intent(Intent.ACTION_EDIT, uri));
+      }
+    }
+  }
+
   private void deleteChecklists() {
+    final String selectedIdString = selectedIds.toString();
+    final String where = ChecklistMetadata.Checklists._ID
+      + " IN (" + selectedIdString.substring(1, selectedIdString.length() - 1) 
+      + ")";
     Alert.showTitleIcon(this, android.R.drawable.ic_dialog_alert,
                         R.string.delete, 
                         R.string.delete_checklists, 
                         R.string.delete, R.string.cancel,
                         new DialogInterface.OnClickListener () {
                           public void onClick(DialogInterface dialog, int id) {
+                            getContentResolver().delete(getIntent().getData(), where, null);
                             selectedIds.clear();
                           }
                         });
@@ -163,7 +232,7 @@ public final class HomeActivity extends ListActivity {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
       switch (item.getItemId()) {
         case R.id.edit_title:
-          // editItem(CheckedItem.getFirstSelectedPosition(items));
+          editChecklistTitle();
           mode.finish();
           break;
         case R.id.delete:

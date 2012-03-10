@@ -97,10 +97,12 @@ public final class CheckedItem implements Parcelable {
 
   public static ArrayList<CheckedItem> deserialize(String str) {
     ArrayList<CheckedItem> items = new ArrayList<CheckedItem>();
-    for (String s : str.split("\\s+,\\s+")) {
-      CheckedItem item = parse(s.replace(",,", ","));
-      item.setSelected(false);
-      items.add(item);
+    if (str.length() > 0) {
+      for (String s : str.split("\\s+,\\s+")) {
+        CheckedItem item = parse(s.replace(",,", ","));
+        item.setSelected(false);
+        items.add(item);
+      }
     }
     
     return items;

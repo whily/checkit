@@ -23,9 +23,11 @@ import android.widget.EditText;
 public final class PromptDialogFragment extends DialogFragment
   implements DialogInterface.OnClickListener {
   private EditText et;
+  private int titleId;
 
-  public static PromptDialogFragment newInstance(String text) {
+  public static PromptDialogFragment newInstance(int titleId, String text) {
     PromptDialogFragment pdf = new PromptDialogFragment();
+    pdf.titleId = titleId;
     Bundle bundle = new Bundle();
     bundle.putString("text", text);
     pdf.setArguments(bundle);
@@ -56,7 +58,7 @@ public final class PromptDialogFragment extends DialogFragment
     // like the style of the former especially the TextView like
     // OK/Cancel button.
     return new AlertDialog.Builder(getActivity())
-      .setTitle(getString(R.string.edit))
+      .setTitle(titleId)
       .setView(v)
       .setPositiveButton(getString(R.string.ok), this)
       .setNegativeButton(getString(R.string.cancel), this)

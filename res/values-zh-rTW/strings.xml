@@ -8,6 +8,7 @@
   <string name="new_list">新建</string>
   <string name="template_list">模板</string>
   <string name="edit_title">編輯標題</string>
+  <string name="title">標題</string>
   <string name="delete_checklists">刪除所選列表?</string>
 
   <!--  Activity CheckActivity -->

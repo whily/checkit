@@ -138,6 +138,14 @@ public class ChecklistProvider extends ContentProvider {
     }
   }
 
+  private void updateModified(ContentValues values) {
+    Long now = Long.valueOf(System.currentTimeMillis());
+
+    if (values.containsKey(ChecklistMetadata.Checklists.COLUMN_MODIFIED) == false) {
+      values.put(ChecklistMetadata.Checklists.COLUMN_MODIFIED, now);
+    }
+  }
+
   @Override
   public Uri insert(Uri uri, ContentValues initialValues) {
     // Validates the incoming URI.
@@ -149,24 +157,20 @@ public class ChecklistProvider extends ContentProvider {
       ? new ContentValues()
       : new ContentValues(initialValues);
 
-    Long now = Long.valueOf(System.currentTimeMillis());
-
-    if (values.containsKey(ChecklistMetadata.Checklists.COLUMN_MODIFIED) == false) {
-      values.put(ChecklistMetadata.Checklists.COLUMN_MODIFIED, now);
-    }
-
     if (values.containsKey(ChecklistMetadata.Checklists.COLUMN_TITLE) == false) {
       throw new SQLException("Failed to insert row since title is missing.");
     }
 
     if (values.containsKey(ChecklistMetadata.Checklists.COLUMN_CONTENT) == false) {
-      throw new SQLException("Failed to insert row since content is missing.");
+      values.put(ChecklistMetadata.Checklists.COLUMN_CONTENT, "");
     }
+
+    updateModified(values);
 
     SQLiteDatabase db = openHelper.getWritableDatabase();
 
     long rowId = db.insert(ChecklistMetadata.Checklists.TABLE_NAME,
-                           ChecklistMetadata.Checklists.COLUMN_CONTENT,
+                           ChecklistMetadata.Checklists.COLUMN_TITLE,
                            values);
 
     if (rowId > 0) {
@@ -215,6 +219,8 @@ public class ChecklistProvider extends ContentProvider {
     SQLiteDatabase db = openHelper.getWritableDatabase();
     int count;
     String finalWhere;
+
+    updateModified(values);
 
     switch (uriMatcher.match(uri)) {
       case CHECKLIST_DIR_INDICATOR:
