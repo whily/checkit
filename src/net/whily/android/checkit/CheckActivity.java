@@ -148,11 +148,6 @@ public final class CheckActivity extends ListActivity
       String title = cursor.getString(columnTitleIndex);
       setTitle(title);
 
-      // String[] itemStrings = getResources().getStringArray(R.array.travel_list);
-      // items = new ArrayList<CheckedItem>();
-      // for (String itemString : itemStrings) {
-      //  items.add(new CheckedItem(itemString));
-      // }
       if (resumeFromSaved) {
         resumeFromSaved = false;
       } else {

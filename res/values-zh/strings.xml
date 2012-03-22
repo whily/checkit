@@ -26,6 +26,8 @@
   <string name="uncheck">清除</string>
   <string name="uncheck_all">清除所有选中</string>   
   <string name="uncheck_message">清除所有选中的项目？</string>
+
+  <string name="travel">旅行</string>
   <array name="travel_list">
     <item>备用眼镜</item>
     <item>梳子</item>

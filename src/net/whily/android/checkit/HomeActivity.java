@@ -54,6 +54,7 @@ public final class HomeActivity extends ListActivity
 
   public static final String EDIT_TITLE_DIALOG_TAG = "EDIT_TITLE_DIALOG";
   public static final String NEW_TITLE_DIALOG_TAG = "NEW_TITLE_DIALG";
+  public static final String FROM_TEMPLATE_DIALOG_TAG = "FROM_TEMPLATE_DIALOG";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,7 @@ public final class HomeActivity extends ListActivity
         return true;
 
       case R.id.template_list:
+        createFromTemplate();
         return true;
 
       case R.id.settings:
@@ -163,6 +165,13 @@ public final class HomeActivity extends ListActivity
     pdf.show(ft, NEW_TITLE_DIALOG_TAG);    
   }
 
+  private void createFromTemplate() {
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    SelectionDialogFragment sdf 
+      = SelectionDialogFragment.newInstance(R.string.edit_title);
+    sdf.show(ft, FROM_TEMPLATE_DIALOG_TAG);
+  }
+
   private String getSelectedChecklistTitle() {
     Uri uri = getSelectedUri();
     Cursor c = managedQuery(uri, null, null, null, null);
@@ -181,21 +190,41 @@ public final class HomeActivity extends ListActivity
     return ContentUris.withAppendedId(getIntent().getData(), getSelectedId());
   }
 
+  private void insertEdit(ContentValues cv) {
+    Uri uri = getContentResolver().insert(getIntent().getData(), cv);
+    if (uri == null) {
+      Log.e(TAG, "Failed to insert new checklist into " + getIntent().getData());
+      finish();     // Close activity.
+      return;
+    }
+    startActivity(new Intent(Intent.ACTION_EDIT, uri));
+  }
+
   public void onDialogDone(String tag, boolean cancelled, CharSequence message) {
     if (!cancelled) {
-      String title = message.toString().trim();
-      ContentValues cv = new ContentValues();
-      cv.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
-      if (tag.equals(EDIT_TITLE_DIALOG_TAG)) {
-        getContentResolver().update(selectedUri, cv, null, null);
-      } else if (tag.equals(NEW_TITLE_DIALOG_TAG)) {
-        Uri uri = getContentResolver().insert(getIntent().getData(), cv);
-        if (uri == null) {
-          Log.e(TAG, "Failed to insert new checklist into " + getIntent().getData());
-          finish();     // Close activity.
-          return;
+      if (tag.equals(EDIT_TITLE_DIALOG_TAG) || tag.equals(NEW_TITLE_DIALOG_TAG)) {
+        String title = message.toString().trim();
+        ContentValues cv = new ContentValues();
+        cv.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
+        if (tag.equals(EDIT_TITLE_DIALOG_TAG)) {
+          getContentResolver().update(selectedUri, cv, null, null);
+        } else if (tag.equals(NEW_TITLE_DIALOG_TAG)) {
+          insertEdit(cv);
         }
-        startActivity(new Intent(Intent.ACTION_EDIT, uri));
+      } else if (tag.equals(FROM_TEMPLATE_DIALOG_TAG)) {
+        String title = message.toString();
+        ContentValues cv = new ContentValues();
+
+        String[] itemStrings = getResources().getStringArray(R.array.travel_list);
+        ArrayList<CheckedItem> items = new ArrayList<CheckedItem>();
+        for (String itemString : itemStrings) {
+          items.add(new CheckedItem(itemString));
+        }
+        String content = CheckedItem.serialize(items);
+
+        cv.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
+        cv.put(ChecklistMetadata.Checklists.COLUMN_CONTENT, content);
+        insertEdit(cv);
       }
     }
   }

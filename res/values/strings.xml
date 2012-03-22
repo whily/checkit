@@ -26,6 +26,8 @@
   <string name="uncheck">Uncheck</string>
   <string name="uncheck_all">Uncheck All</string>
   <string name="uncheck_message">Uncheck all items?</string>
+
+  <string name="travel">travel</string>
   <array name="travel_list">
     <item>backup glasses</item>
     <item>comb</item>
