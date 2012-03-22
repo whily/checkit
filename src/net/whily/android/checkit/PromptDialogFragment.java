@@ -1,5 +1,5 @@
 /**
- * Interface OnDialogDoneListener. Based on Pro Android 3.
+ * Dialog fragment containing EditText. 
  *
  * @author  Yujian Zhang <yujian{dot}zhang[at]gmail(dot)com>
  *
@@ -20,10 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-public final class PromptDialogFragment extends DialogFragment
-  implements DialogInterface.OnClickListener {
+public final class PromptDialogFragment extends CustomDialogFragment {
   private EditText et;
-  private int titleId;
 
   public static PromptDialogFragment newInstance(int titleId, String text) {
     PromptDialogFragment pdf = new PromptDialogFragment();
@@ -35,15 +33,12 @@ public final class PromptDialogFragment extends DialogFragment
   }
 
   @Override
-  public void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
-    this.setCancelable(true);
-    int style = DialogFragment.STYLE_NORMAL; 
-    int theme = 0;
-    setStyle(style, theme);
+  public CharSequence getMessage() {
+    return et.getText();
   }
 
-  public Dialog onCreateDialog(Bundle icicle) {
+  @Override
+  public View onInflateDialog(Bundle icicle) {
     LayoutInflater li = LayoutInflater.from(getActivity());
     View v = li.inflate(R.layout.prompt, null);
     et = (EditText)v.findViewById(R.id.prompt_entry);
@@ -54,26 +49,12 @@ public final class PromptDialogFragment extends DialogFragment
     }
     et.setSelectAllOnFocus(true);
 
-    // Use AlertDialog instead of building a normal dialog since I
-    // like the style of the former especially the TextView like
-    // OK/Cancel button.
-    return new AlertDialog.Builder(getActivity())
-      .setTitle(titleId)
-      .setView(v)
-      .setPositiveButton(getString(R.string.ok), this)
-      .setNegativeButton(getString(R.string.cancel), this)
-      .create();
+    return v;
   }
 
   @Override
   public void onSaveInstanceState(Bundle icicle) {
     icicle.putCharSequence("input", et.getText());
     super.onPause();
-  }
-
-  public void onClick(DialogInterface dialog, int which) {
-    OnDialogDoneListener act = (OnDialogDoneListener)getActivity();
-    boolean cancelled = (which == AlertDialog.BUTTON_NEGATIVE);
-    act.onDialogDone(this.getTag(), cancelled, et.getText());
   }
 }
