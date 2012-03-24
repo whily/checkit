@@ -8,6 +8,7 @@
   <string name="new_list">新建</string>
   <string name="template_list">模板</string>
   <string name="edit_title">编辑标题</string>
+  <string name="select_template">选择模板</string>
   <string name="title">标题</string>
   <string name="delete_checklists">删除所选列表?</string>
 

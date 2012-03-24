@@ -168,7 +168,7 @@ public final class HomeActivity extends ListActivity
   private void createFromTemplate() {
     FragmentTransaction ft = getFragmentManager().beginTransaction();
     SelectionDialogFragment sdf 
-      = SelectionDialogFragment.newInstance(R.string.edit_title);
+      = SelectionDialogFragment.newInstance(R.string.select_template);
     sdf.show(ft, FROM_TEMPLATE_DIALOG_TAG);
   }
 
