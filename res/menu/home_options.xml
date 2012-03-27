@@ -6,7 +6,7 @@
         android:showAsAction="ifRoom" />
   <item android:id="@+id/template_list"
         android:title="@string/template_list" 
-        android:icon="@android:drawable/ic_menu_day" 
+        android:icon="@drawable/ic_menu_template_holo_dark" 
         android:showAsAction="ifRoom" />
   <item android:id="@+id/settings"
         android:title="@string/settings" 
