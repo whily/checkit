@@ -27,7 +27,7 @@ The following tools are needed to build CheckIt from source:
 * JDK version 6/7 from <http://www.java.com> if Java is not available. 
   Note that JDK is preinstalled on Mac OS X and available via package manager
   on many Linux systems. 
-* Android SDK r16.
+* Android SDK r17.
 * [Inkscape](http://inkscape.org) to generate icons.
 
 CheckIt is built using [Ant](http://en.wikipedia.org/wiki/Apache_Ant)
