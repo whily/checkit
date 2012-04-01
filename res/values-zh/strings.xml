@@ -11,6 +11,9 @@
   <string name="select_template">选择模板</string>
   <string name="title">标题</string>
   <string name="delete_checklists">删除所选列表?</string>
+  <string name="backup">备份</string>
+  <string name="restore">还原</string>
+  <string name="backup_successful">备份成功.</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">关于</string>
@@ -27,6 +30,10 @@
   <string name="uncheck">清除</string>
   <string name="uncheck_all">清除所有选中</string>   
   <string name="uncheck_message">清除所有选中的项目？</string>
+
+  <!-- Class ExternalStorage.java -->
+  <string name="sd_not_writable">SD卡无法访问或不可写。</string>
+  <string name="sd_not_mounted">SD卡无法访问。</string>
 
   <string name="travel">旅行</string>
   <array name="travel_list">

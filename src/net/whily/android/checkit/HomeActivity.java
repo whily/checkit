@@ -39,6 +39,7 @@ import android.widget.TextView;
 public final class HomeActivity extends ListActivity 
   implements OnDialogDoneListener {
   private static final String TAG = "HomeActivity";
+  private static final String sdPrefix = "checkit";
 
   private ArrayList<String> lists = new ArrayList<String>(Arrays.asList("first"));
   private static final String[] PROJECTION = new String[] {
@@ -46,6 +47,7 @@ public final class HomeActivity extends ListActivity
     ChecklistMetadata.Checklists.COLUMN_TITLE
   };
 
+  private ExternalStorage sd;
   private ListView list;
 
   private Uri selectedUri;
@@ -65,6 +67,7 @@ public final class HomeActivity extends ListActivity
       intent.setData(ChecklistMetadata.Checklists.CONTENT_URI);
     }
 
+    sd = new ExternalStorage(sdPrefix, this);
     selectedIds = new HashSet<Long>();
     if (savedInstanceState != null) {
       long[] array = savedInstanceState.getLongArray("selectedIds");
@@ -123,16 +126,24 @@ public final class HomeActivity extends ListActivity
         startActivity(new Intent(this, AboutActivity.class));
         return true;
 
+      case R.id.backup:
+        backup();
+        return true;
+
       case R.id.new_list:
         newChecklist();
         return true;
 
-      case R.id.template_list:
-        createFromTemplate();
+      case R.id.restore:
+        restore();
         return true;
 
       case R.id.settings:
         startActivity(new Intent(this, SettingsActivity.class));
+        return true;
+
+      case R.id.template_list:
+        createFromTemplate();
         return true;
 
       default:
@@ -163,6 +174,14 @@ public final class HomeActivity extends ListActivity
       = PromptDialogFragment.newInstance(R.string.edit_title, 
                                          getString(R.string.title));
     pdf.show(ft, NEW_TITLE_DIALOG_TAG);    
+  }
+
+  private void backup() {
+    sd.copyToSD(ChecklistMetadata.DATABASE_NAME, "checklist_backup.db");
+    Util.toast(this, getString(R.string.backup_successful));
+  }
+
+  private void restore() {
   }
 
   private void createFromTemplate() {
