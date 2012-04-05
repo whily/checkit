@@ -53,13 +53,14 @@ public class ExternalStorage {
   public void copyToSD(String source, String dest) {
     if (getSDState() != SDState.READ_WRITE) {
       Util.toast(activity, activity.getString(R.string.sd_not_writable));
-      return;
+      throw new RuntimeException();
     }
 
     try {
       copyFile(activity.getDatabasePath(source), getSDFile(dest));
     } catch (IOException e) {
       Log.w(TAG, "Error copying file to SD: ", e);
+      throw new RuntimeException();
     }
   }
 
@@ -72,13 +73,14 @@ public class ExternalStorage {
   public void copyFromSD(String source, String dest) {
     if (getSDState() == SDState.UNAVAILABLE) {
       Util.toast(activity, activity.getString(R.string.sd_not_mounted));
-      return;
+      throw new RuntimeException();
     } 
 
     try {
       copyFile(getSDFile(source), activity.getDatabasePath(dest));
     } catch (IOException e) {
       Log.w(TAG, "Error copying file from SD: ", e);
+      throw new RuntimeException();
     }
   }
     

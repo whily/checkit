@@ -177,8 +177,15 @@ public final class HomeActivity extends ListActivity
   }
 
   private void backup() {
-    sd.copyToSD(ChecklistMetadata.DATABASE_NAME, "checklist_backup.db");
-    Util.toast(this, getString(R.string.backup_successful));
+    String backupName = "checklist_" + Util.timeStamp() + ".db";
+    try {
+      sd.copyToSD(ChecklistMetadata.DATABASE_NAME, backupName);
+      Util.toast(this, 
+                 getString(R.string.backup_successful) + " " + backupName + ".");
+    } catch (Exception e) {
+      // Do nothing since exception is already handled. The main intention here
+      // is to avoid showing the "successful" message.
+    }
   }
 
   private void restore() {

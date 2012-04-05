@@ -13,7 +13,7 @@
   <string name="delete_checklists">刪除所選列表?</string>
   <string name="backup">備份</string>
   <string name="restore">還原</string>
-  <string name="backup_successful">備份成功.</string>
+  <string name="backup_successful">備份為</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">關於</string>
