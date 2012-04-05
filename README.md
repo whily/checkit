@@ -6,9 +6,8 @@ development and is expected to have following features:
 
 * Multiple checklists
 * Extensive templates for commonly used checklists
-* Backup to and restore from SD card
-* Import from and export to CSV file
-* Synchronization with Google Tasks
+* Backup to and restore from SD card and Dropbox.
+* Import from and export from text file/Evernote
 
 For more information about CheckIt, please go to
   <https://github.com/whily/checkit>
