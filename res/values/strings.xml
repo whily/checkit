@@ -12,8 +12,10 @@
   <string name="title">title</string>
   <string name="delete_checklists">Delete selected checklists?</string>
   <string name="backup">Backup</string>
-  <string name="restore">Restore</string>
   <string name="backup_successful">Backup to</string>
+  <string name="restore">Restore</string>
+  <string name="restore_checklists">Restore from the selected file?</string>
+  <string name="restore_successful">Restoration is successful.</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">About</string>
@@ -35,7 +37,9 @@
   <string name="sd_not_writable">SD card not mounted/writable.</string>
   <string name="sd_not_mounted">SD car not mounted.</string>
 
-  <string name="travel">travel</string>
+  <array name="template_list">
+    <item>travel</item>
+  </array>
   <array name="travel_list">
     <item>backup glasses</item>
     <item>comb</item>

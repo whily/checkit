@@ -12,6 +12,7 @@
 
 package net.whily.android.checkit;
 
+import java.io.*;
 import java.util.*;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -41,7 +42,9 @@ public final class HomeActivity extends ListActivity
   private static final String TAG = "HomeActivity";
   private static final String sdPrefix = "checkit";
 
-  private ArrayList<String> lists = new ArrayList<String>(Arrays.asList("first"));
+  private static final String backupPrefix = "checkit_";
+  private static final String backupSuffix = ".db";
+
   private static final String[] PROJECTION = new String[] {
     ChecklistMetadata.Checklists._ID,
     ChecklistMetadata.Checklists.COLUMN_TITLE
@@ -54,9 +57,12 @@ public final class HomeActivity extends ListActivity
 
   private HashSet<Long> selectedIds;
 
+  private String[] selections; // Strings for selection diaglog.
+
   public static final String EDIT_TITLE_DIALOG_TAG = "EDIT_TITLE_DIALOG";
   public static final String NEW_TITLE_DIALOG_TAG = "NEW_TITLE_DIALG";
   public static final String FROM_TEMPLATE_DIALOG_TAG = "FROM_TEMPLATE_DIALOG";
+  public static final String RESTORE_DIALOG_TAG = "RESTORE_DIALOG";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +183,7 @@ public final class HomeActivity extends ListActivity
   }
 
   private void backup() {
-    String backupName = "checklist_" + Util.timeStamp() + ".db";
+    String backupName = backupPrefix + Util.timeStamp() + backupSuffix;
     try {
       sd.copyToSD(ChecklistMetadata.DATABASE_NAME, backupName);
       Util.toast(this, 
@@ -189,12 +195,36 @@ public final class HomeActivity extends ListActivity
   }
 
   private void restore() {
+    if (ExternalStorage.getSDState() == ExternalStorage.SDState.UNAVAILABLE) {
+      Util.toast(this, getString(R.string.sd_not_mounted));
+      return;
+    } 
+
+    File dir = sd.getSDDir();
+    if (!dir.exists()) {
+      Util.toast(this, "Backup dir not exist.");
+      return;
+    }
+
+    String[] files = dir.list(new FilenameFilter() {
+        public boolean accept(File dir, String name) {
+          return name.matches(backupPrefix + "\\d{12}" + backupSuffix);
+        }
+      });
+    selections = files;
+    
+    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    SelectionDialogFragment sdf 
+      = SelectionDialogFragment.newInstance(R.string.select_template, 
+                                            selections);
+    sdf.show(ft, RESTORE_DIALOG_TAG);
   }
 
   private void createFromTemplate() {
     FragmentTransaction ft = getFragmentManager().beginTransaction();
+    selections = getResources().getStringArray(R.array.template_list);
     SelectionDialogFragment sdf 
-      = SelectionDialogFragment.newInstance(R.string.select_template);
+      = SelectionDialogFragment.newInstance(R.string.select_template, selections);
     sdf.show(ft, FROM_TEMPLATE_DIALOG_TAG);
   }
 
@@ -238,7 +268,7 @@ public final class HomeActivity extends ListActivity
           insertEdit(cv);
         }
       } else if (tag.equals(FROM_TEMPLATE_DIALOG_TAG)) {
-        String title = message.toString();
+        String title = selections[Integer.valueOf(message.toString())];
         ContentValues cv = new ContentValues();
 
         String[] itemStrings = getResources().getStringArray(R.array.travel_list);
@@ -251,6 +281,20 @@ public final class HomeActivity extends ListActivity
         cv.put(ChecklistMetadata.Checklists.COLUMN_TITLE, title);
         cv.put(ChecklistMetadata.Checklists.COLUMN_CONTENT, content);
         insertEdit(cv);
+      } else if (tag.equals(RESTORE_DIALOG_TAG)) {
+        final String file = selections[Integer.valueOf(message.toString())];
+        final HomeActivity outer = this;
+
+        Alert.showTitleIcon(this, android.R.drawable.ic_dialog_alert,
+                            R.string.restore, 
+                            R.string.restore_checklists, 
+                            R.string.restore, R.string.cancel,
+                            new DialogInterface.OnClickListener () {
+                              public void onClick(DialogInterface dialog, int id) {
+                                sd.copyFromSD(file, ChecklistMetadata.DATABASE_NAME);
+                                Util.toast(outer, getString(R.string.restore_successful));
+                              }
+                            });
       }
     }
   }

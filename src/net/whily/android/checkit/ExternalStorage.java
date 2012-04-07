@@ -33,13 +33,20 @@ public class ExternalStorage {
   }
 
   /**
-   * Return file object for files on SD card.
+   * Return directory hosting files on SD card.
    */
-  public File getSDFile(String filename) {
+  public File getSDDir() {
     // We don't use recommended directories since we don't want
     // backups to be erased if app is uninstalled.
     File path = Environment.getExternalStorageDirectory();
-    File prefixPath = new File(path, externalPrefix);
+    return new File(path, externalPrefix);
+  }
+
+  /**
+   * Return file object for files on SD card.
+   */
+  public File getSDFile(String filename) {
+    File prefixPath = getSDDir();
     prefixPath.mkdirs();
     return new File(prefixPath, filename);
   }

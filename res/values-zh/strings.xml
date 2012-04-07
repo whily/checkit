@@ -12,8 +12,10 @@
   <string name="title">标题</string>
   <string name="delete_checklists">删除所选列表?</string>
   <string name="backup">备份</string>
-  <string name="restore">还原</string>
   <string name="backup_successful">备份为</string>
+  <string name="restore">还原</string>
+  <string name="restore_checklists">用选中的备份来还原?</string>
+  <string name="restore_successful">成功还原。</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">关于</string>
@@ -35,7 +37,9 @@
   <string name="sd_not_writable">SD卡无法访问或不可写。</string>
   <string name="sd_not_mounted">SD卡无法访问。</string>
 
-  <string name="travel">旅行</string>
+  <array name="template_list">
+    <item>旅行</item>
+  </array>
   <array name="travel_list">
     <item>备用眼镜</item>
     <item>梳子</item>

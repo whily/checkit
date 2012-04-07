@@ -18,25 +18,27 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public final class SelectionDialogFragment extends CustomDialogFragment {
   private RadioGroup group;
+  private String[] selections;
 
-  public static SelectionDialogFragment newInstance(int titleId) {
+  public static SelectionDialogFragment newInstance(int titleId, 
+                                                    String[] selections) {
     SelectionDialogFragment sdf = new SelectionDialogFragment();
     sdf.titleId = titleId;
+    sdf.selections = selections;
     return sdf;
   }
 
   @Override
+  /**
+   * Return string of corresponding id.
+   */
   public CharSequence getMessage() {
-    String result ="";
-    switch (group.getCheckedRadioButtonId()) {
-      case R.id.travel: 
-        result = "travel";
-    }
-    return result;
+    return "" + group.getCheckedRadioButtonId();
   }
 
   @Override
@@ -44,10 +46,22 @@ public final class SelectionDialogFragment extends CustomDialogFragment {
     LayoutInflater li = LayoutInflater.from(getActivity());
     View v = li.inflate(R.layout.selection, null);
     group = (RadioGroup)v.findViewById(R.id.selection_list);
+
+    RadioGroup.LayoutParams rg 
+      = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT,
+                                    RadioGroup.LayoutParams.WRAP_CONTENT);
+    for (int i = 0; i < selections.length; ++i) {
+      RadioButton rb = new RadioButton(getActivity());
+      rb.setId(i);
+      rb.setText(selections[i]);
+      //android:textAppearance="?android:attr/textAppearanceMedium" 
+      group.addView(rb, rg);
+    }
+
     if (icicle != null) {
       group.check(icicle.getInt("selection"));
     } else {
-      group.check(R.id.travel);
+      group.check(0);
     }
 
     return v;
