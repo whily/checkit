@@ -16,6 +16,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.*;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -54,7 +55,11 @@ public final class SelectionDialogFragment extends CustomDialogFragment {
       RadioButton rb = new RadioButton(getActivity());
       rb.setId(i);
       rb.setText(selections[i]);
-      //android:textAppearance="?android:attr/textAppearanceMedium" 
+      // Change dp to pixels.
+      float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 266, 
+                                           getResources().getDisplayMetrics());
+      rb.setWidth((int)px);
+      rb.setTextAppearance(getActivity(), android.R.attr.textAppearanceMedium);
       group.addView(rb, rg);
     }
 

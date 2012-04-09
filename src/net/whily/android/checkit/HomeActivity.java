@@ -1,4 +1,3 @@
-
 /**
  * List activity for CheckIt.
  *
@@ -42,7 +41,7 @@ public final class HomeActivity extends ListActivity
   private static final String TAG = "HomeActivity";
   private static final String sdPrefix = "checkit";
 
-  private static final String backupPrefix = "checkit_";
+  private static final String backupPrefix = "checkit-";
   private static final String backupSuffix = ".db";
 
   private static final String[] PROJECTION = new String[] {
@@ -52,6 +51,8 @@ public final class HomeActivity extends ListActivity
 
   private ExternalStorage sd;
   private ListView list;
+
+  private Cursor cursor;
 
   private Uri selectedUri;
 
@@ -88,11 +89,9 @@ public final class HomeActivity extends ListActivity
     ActionBar actionBar = getActionBar();
     actionBar.setHomeButtonEnabled(true);
 
-    //getListView().setOnCreateContextMenuListener(this);
-
-    Cursor cursor = managedQuery(getIntent().getData(),
-                                 PROJECTION, null, null, 
-                                 ChecklistMetadata.Checklists.DEFAULT_SORT_ORDER);
+    cursor = managedQuery(getIntent().getData(),
+                          PROJECTION, null, null, 
+                          ChecklistMetadata.Checklists.DEFAULT_SORT_ORDER);
     String[] dataColumns = { ChecklistMetadata.Checklists.COLUMN_TITLE };
     int[] viewIDs = { android.R.id.text1 };
     HighlightCursorAdapter adapter
@@ -202,7 +201,7 @@ public final class HomeActivity extends ListActivity
 
     File dir = sd.getSDDir();
     if (!dir.exists()) {
-      Util.toast(this, "Backup dir not exist.");
+      Util.toast(this, getString(R.string.no_backup_dir));
       return;
     }
 
@@ -211,7 +210,13 @@ public final class HomeActivity extends ListActivity
           return name.matches(backupPrefix + "\\d{12}" + backupSuffix);
         }
       });
-    selections = files;
+    if (files.length == 0) {
+      Util.toast(this, getString(R.string.no_backup_files));
+      return;
+    }
+    Arrays.sort(files, Collections.reverseOrder());
+    // We only show the latest 9 backups.
+    selections = Arrays.copyOfRange(files, 0, Math.min(9, files.length));
     
     FragmentTransaction ft = getFragmentManager().beginTransaction();
     SelectionDialogFragment sdf 
@@ -292,6 +297,8 @@ public final class HomeActivity extends ListActivity
                             new DialogInterface.OnClickListener () {
                               public void onClick(DialogInterface dialog, int id) {
                                 sd.copyFromSD(file, ChecklistMetadata.DATABASE_NAME);
+                                // Refresh the list view.
+                                cursor.requery();
                                 Util.toast(outer, getString(R.string.restore_successful));
                               }
                             });

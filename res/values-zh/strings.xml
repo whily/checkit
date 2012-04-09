@@ -13,6 +13,8 @@
   <string name="delete_checklists">删除所选列表?</string>
   <string name="backup">备份</string>
   <string name="backup_successful">备份为</string>
+  <string name="no_backup_dir">备份目录不存在。</string>
+  <string name="no_backup_files">无备份文件。</string>
   <string name="restore">还原</string>
   <string name="restore_checklists">用选中的备份来还原?</string>
   <string name="restore_successful">成功还原。</string>

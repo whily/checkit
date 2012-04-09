@@ -13,6 +13,8 @@
   <string name="delete_checklists">Delete selected checklists?</string>
   <string name="backup">Backup</string>
   <string name="backup_successful">Backup to</string>
+  <string name="no_backup_dir">Backup dir not exist.</string>
+  <string name="no_backup_files">No backup files.</string>
   <string name="restore">Restore</string>
   <string name="restore_checklists">Restore from the selected file?</string>
   <string name="restore_successful">Restoration is successful.</string>
