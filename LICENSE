@@ -1,6 +1,2 @@
 License: GNU General Public License v2
   http://www.gnu.org/licenses/gpl-2.0.html
-
-Menu icon ic_menu_template_holo_dark.png in res/ directory is copied
-from Android SDK drawable ic_menu_copy_holo_dark.png. Corresponding
-license apply.

@@ -139,16 +139,20 @@ public final class HomeActivity extends ListActivity
         newChecklist();
         return true;
 
+      case R.id.import_list:
+        importChecklist();
+        return true;
+
+      case R.id.template_list:
+        createFromTemplate();
+        return true;
+
       case R.id.restore:
         restore();
         return true;
 
       case R.id.settings:
         startActivity(new Intent(this, SettingsActivity.class));
-        return true;
-
-      case R.id.template_list:
-        createFromTemplate();
         return true;
 
       default:
@@ -181,12 +185,16 @@ public final class HomeActivity extends ListActivity
     pdf.show(ft, NEW_TITLE_DIALOG_TAG);    
   }
 
+  private void importChecklist() {
+  }
+
   private void backup() {
     String backupName = backupPrefix + Util.timeStamp() + backupSuffix;
     try {
       sd.copyToSD(ChecklistMetadata.DATABASE_NAME, backupName);
+      String filePath = sd.getSDFile(backupName).toString();
       Util.toast(this, 
-                 getString(R.string.backup_successful) + " " + backupName + ".");
+                 getString(R.string.backup_successful) + " " + filePath + ".");
     } catch (Exception e) {
       // Do nothing since exception is already handled. The main intention here
       // is to avoid showing the "successful" message.
@@ -323,6 +331,9 @@ public final class HomeActivity extends ListActivity
                         });
   }
 
+  private void exportChecklists() {
+  }
+
   private final class ModeCallback implements ListView.MultiChoiceModeListener {
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
       getMenuInflater().inflate(R.menu.home_context, menu);
@@ -345,6 +356,9 @@ public final class HomeActivity extends ListActivity
           deleteChecklists();
           mode.finish();
           break;
+        case R.id.export:
+          exportChecklists();
+          mode.finish();
         default:
           break;
       }

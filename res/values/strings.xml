@@ -6,6 +6,7 @@
 
   <!-- Activity HomeActivity -->
   <string name="new_list">New</string>
+  <string name="import_list">Import</string>
   <string name="template_list">Template</string>
   <string name="edit_title">Edit title</string>
   <string name="select_template">Select template</string>
@@ -18,6 +19,7 @@
   <string name="restore">Restore</string>
   <string name="restore_checklists">Restore from the selected file?</string>
   <string name="restore_successful">Restoration is successful.</string>
+  <string name="export">Export</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">About</string>

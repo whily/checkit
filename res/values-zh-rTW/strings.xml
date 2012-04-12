@@ -6,6 +6,7 @@
 
   <!-- Activity HomeActivity -->
   <string name="new_list">新建</string>
+  <string name="import_list">導入</string>
   <string name="template_list">模板</string>
   <string name="edit_title">編輯標題</string>
   <string name="select_template">選擇模板</string>
@@ -18,6 +19,7 @@
   <string name="restore">還原</string>
   <string name="restore_checklists">用選中的備份來還原?</string>
   <string name="restore_successful">成功還原。</string>
+  <string name="export">導出</string>
 
   <!--  Activity CheckActivity -->
   <string name="about">關於</string>
