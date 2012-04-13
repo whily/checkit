@@ -77,13 +77,13 @@
     <item>大</item>
     <item>超大</item>
   </array>
-  <string name="sync_preference">同步</string>
-  <string name="auto_sync_preference">自动与Google Tasks同步</string>
-  <string name="summary_off_auto_sync_preference">
-    启用自动与Google Tasks同步
+  <string name="backup_preference">备份</string>
+  <string name="auto_backup_preference">自动与Dropbox备份</string>
+  <string name="summary_off_auto_backup_preference">
+    启用自动与Dropbox备份
   </string>
-  <string name="summary_on_auto_sync_preference">
-    关闭自动与Google Tasks同步
+  <string name="summary_on_auto_backup_preference">
+    关闭自动与Dropbox备份
   </string>    
   
   <!-- Activity About -->

@@ -86,13 +86,13 @@
     <item>1</item>
     <item>2</item>
   </string-array>
-  <string name="sync_preference">Synchronization</string>
-  <string name="auto_sync_preference">Auto sync with Google Tasks</string>
-  <string name="summary_off_auto_sync_preference">
-    Enable automatic synchronization with Google Tasks
+  <string name="backup_preference">Backup</string>
+  <string name="auto_backup_preference">Auto backup to Dropbox</string>
+  <string name="summary_off_auto_backup_preference">
+    Enable automatic backup to Dropbox
   </string>
-  <string name="summary_on_auto_sync_preference">
-    Disable automatic synchronization with Google Tasks
+  <string name="summary_on_auto_backup_preference">
+    Disable automatic backup to Dropbox
   </string>    
   
   <!-- Activity About -->

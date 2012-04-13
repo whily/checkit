@@ -25,11 +25,11 @@
         android:shouldDisableView="false" /> 
   </PreferenceCategory>
   <PreferenceCategory
-      android:title="@string/sync_preference">
+      android:title="@string/backup_preference">
     <CheckBoxPreference
-        android:key="auto_sync_preference"
-        android:title="@string/auto_sync_preference"
-        android:summaryOff="@string/summary_off_auto_sync_preference"
-        android:summaryOn="@string/summary_on_auto_sync_preference" />
+        android:key="auto_backup_preference"
+        android:title="@string/auto_backup_preference"
+        android:summaryOff="@string/summary_off_auto_backup_preference"
+        android:summaryOn="@string/summary_on_auto_backup_preference" />
   </PreferenceCategory>
 </PreferenceScreen>
