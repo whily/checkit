@@ -26,13 +26,13 @@ The following tools are needed to build CheckIt from source:
 * JDK version 6/7 from <http://www.java.com> if Java is not available. 
   Note that JDK is preinstalled on Mac OS X and available via package manager
   on many Linux systems. 
-* Android SDK r17.
+* Android SDK r19.
 * [Inkscape](http://inkscape.org) and [ImageMagick](http://www.imagemagick.org)
   to generate icons.
 
-CheckIt is built using [Ant](http://en.wikipedia.org/wiki/Apache_Ant)
-instead of IDEs like Eclipse. Type the following commands at the
-project directory checked out (assuming debug version):
+CheckIt can be built with either [Ant] (http://en.wikipedia.org/wiki/Apache_Ant)
+or Eclipse. For Eclipse, simply import the project. For Ant, type the following
+commands at the project directory checked out (assuming debug version):
 
 1. android update project -p .
 2. ./genart
