@@ -108,23 +108,19 @@ public final class CheckActivity extends ListActivity
     entry = (EditText)findViewById(R.id.entry);
     addButton.setEnabled(entry.getText().length() > 0);    
     entry.addTextChangedListener(new TextWatcher() {
-        @Override
         public void onTextChanged(CharSequence s, int start, int before, 
                                   int count) {
           addButton.setEnabled(entry.getText().length() > 0);    
         }        
 
-        @Override
         public void beforeTextChanged(CharSequence s, int start, int count, 
                                       int after) {
         }
         
-        @Override
         public void afterTextChanged(Editable s) {
         }
       });
     entry.setOnEditorActionListener(new OnEditorActionListener() {
-        @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
           if (actionId == EditorInfo.IME_ACTION_GO) {
             onAddButtonClick(addButton);
@@ -181,7 +177,6 @@ public final class CheckActivity extends ListActivity
     CheckBox cb = (CheckBox)menu.findItem(R.id.add_switch).getActionView();
     cb.setText(getString(R.string.add));
     cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener () {
-        @Override
         public void onCheckedChanged(CompoundButton buttonView, 
                                      boolean isChecked) {
           if (isChecked) {
