@@ -86,13 +86,30 @@
     <item>1</item>
     <item>2</item>
   </string-array>
-  <string name="backup_preference">Backup</string>
   <string name="auto_backup_preference">Auto backup to Dropbox</string>
   <string name="summary_off_auto_backup_preference">
     Enable automatic backup to Dropbox
   </string>
   <string name="summary_on_auto_backup_preference">
     Disable automatic backup to Dropbox
+  </string>    
+  <string name="export_format_title_preference">Export format</string>
+  <string name="export_format_summary_preference">Export format</string>
+  <string name="export_format_dialog_title_preference">Export format</string>
+  <array name="export_format_entries_preference">
+    <item>Unix (LF)</item>
+    <item>Windows (CR/LF)</item>
+  </array>
+  <string-array name="export_format_values_preference">
+    <item>0</item>
+    <item>1</item>
+  </string-array>
+  <string name="auto_append_preference">Auto append suffix .txt for Windows format</string>
+  <string name="summary_off_auto_append_preference">
+    Enable automatic append suffix .txt
+  </string>
+  <string name="summary_on_auto_append_preference">
+    Disable automatic append suffix .txt
   </string>    
   
   <!-- Activity About -->

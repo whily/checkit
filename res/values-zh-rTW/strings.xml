@@ -77,7 +77,6 @@
     <item>大</item>
     <item>超大</item>
   </array>
-  <string name="backup_preference">備份</string>
   <string name="auto_backup_preference">自動與Dropbox備份</string>
   <string name="summary_off_auto_backup_preference">
     啟用自動與Dropbox備份

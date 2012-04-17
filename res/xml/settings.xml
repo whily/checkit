@@ -25,11 +25,29 @@
         android:shouldDisableView="false" /> 
   </PreferenceCategory>
   <PreferenceCategory
-      android:title="@string/backup_preference">
+      android:title="@string/backup">
     <CheckBoxPreference
         android:key="auto_backup_preference"
         android:title="@string/auto_backup_preference"
         android:summaryOff="@string/summary_off_auto_backup_preference"
         android:summaryOn="@string/summary_on_auto_backup_preference" />
+  </PreferenceCategory>
+  <PreferenceCategory
+      android:title="@string/export">
+    <ListPreference 
+        android:key="theme_preference"
+        android:title="@string/export_format_title_preference" 
+        android:summary="@string/export_format_summary_preference"
+        android:entries="@array/export_format_entries_preference" 
+        android:entryValues="@array/export_format_values_preference"
+        android:dialogTitle="@string/export_format_dialog_title_preference"
+        android:persistent="true" 
+        android:defaultValue="0"
+        android:shouldDisableView="false" /> 
+    <CheckBoxPreference
+        android:key="auto_append_preference"
+        android:title="@string/auto_append_preference"
+        android:summaryOff="@string/summary_off_auto_append_preference"
+        android:summaryOn="@string/summary_on_auto_append_preference" />
   </PreferenceCategory>
 </PreferenceScreen>
