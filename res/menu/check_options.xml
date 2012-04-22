@@ -5,6 +5,14 @@
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="ifRoom" 
         android:actionViewClass="android.widget.CheckBox" />
+  <item android:id="@+id/copy"	
+        android:title="@string/copy" 
+        android:icon="@android:drawable/ic_menu_today" 
+        android:showAsAction="ifRoom" />
+  <item android:id="@+id/paste"	
+        android:title="@string/paste" 
+        android:icon="@android:drawable/ic_menu_agenda" 
+        android:showAsAction="ifRoom" />
   <item android:id="@+id/uncheck_all"
         android:title="@string/uncheck_all"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"

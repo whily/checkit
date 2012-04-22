@@ -29,6 +29,8 @@
   <string name="delete">Delete</string>
   <string name="delete_message">Delete selected items?</string>
   <string name="edit">Edit</string>
+  <string name="copy">Copy</string>
+  <string name="paste">Paste</string>  
   <string name="help">Help</string>	
   <string name="item_selected_prefix"></string>
   <string name="item_selected_postfix">\u0020selected</string>
@@ -39,7 +41,7 @@
 
   <!-- Class ExternalStorage.java -->
   <string name="sd_not_writable">SD card not mounted/writable.</string>
-  <string name="sd_not_mounted">SD car not mounted.</string>
+  <string name="sd_not_mounted">SD card not mounted.</string>
 
   <array name="template_list">
     <item>travel</item>
