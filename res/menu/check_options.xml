@@ -7,11 +7,11 @@
         android:actionViewClass="android.widget.CheckBox" />
   <item android:id="@+id/copy"	
         android:title="@string/copy" 
-        android:icon="@android:drawable/ic_menu_today" 
+        android:icon="@android:drawable/ic_menu_copy_holo_light" 
         android:showAsAction="ifRoom" />
   <item android:id="@+id/paste"	
         android:title="@string/paste" 
-        android:icon="@android:drawable/ic_menu_agenda" 
+        android:icon="@android:drawable/ic_menu_paste_holo_light" 
         android:showAsAction="ifRoom" />
   <item android:id="@+id/uncheck_all"
         android:title="@string/uncheck_all"

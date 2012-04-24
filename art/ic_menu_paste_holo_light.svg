@@ -1,0 +1,21 @@
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="345.11" width="224" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <defs></defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <rect opacity="0" rx="0" ry="0.71429" height="157.14" width="254.26" y="94.552" x="22"/>
+ <path opacity="0" d="M6.85,382.54h393.16v-398.84h-393.16v398.84z"/>
+ <rect opacity="0.6" stroke-linejoin="miter" stroke-dasharray="none" ry="0" height="272.86" width="199" stroke="#333" stroke-linecap="butt" stroke-miterlimit="4" y="59.762" x="12.5" stroke-width="25" fill="none"/>
+ <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="23.929" width="148.93" stroke="#000" stroke-linecap="butt" y="154.7" x="32.09" stroke-width="1.0709px" fill="#333"/>
+ <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="23.895" width="158.89" stroke="#000" stroke-linecap="butt" y="276.75" x="32.1" stroke-width="1.1053px" fill="#333"/>
+ <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="24.04" width="119.04" stroke="#000" stroke-linecap="butt" y="215.66" x="32.03" stroke-width="0.95963px" fill="#333"/>
+ <path d="m107.61,44.972s90.051-201.29,143.02-26.486c52.971,174.81,54.737,174.81,54.737,174.81" stroke-opacity="0" stroke-miterlimit="4" fill="none"/>
+ <path opacity="0.6" fill="#333" transform="matrix(-1,0,0,-1,211.35944,57.75)" stroke="#333" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="25" d="m150.29,45.244-50.932,0-50.932-0.000001l25.468-44.108,25.465-44.108,25.471,44.108z"/>
+</svg>
