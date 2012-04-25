@@ -11,10 +11,10 @@
  </metadata>
  <rect opacity="0" rx="0" ry="0.71429" height="157.14" width="254.26" y="98.447" x="22"/>
  <path opacity="0" d="M6.85,386.44h393.16v-398.84h-393.16v398.84z"/>
- <rect opacity="0.6" stroke-linejoin="miter" stroke-dasharray="none" ry="0" height="272.86" width="199" stroke="#333" stroke-linecap="butt" stroke-miterlimit="4" y="63.657" x="12.5" stroke-width="25" fill="none"/>
- <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="23.929" width="148.93" stroke="#000" stroke-linecap="butt" y="158.6" x="32.09" stroke-width="1.0709px" fill="#333"/>
- <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="23.895" width="158.89" stroke="#000" stroke-linecap="butt" y="280.65" x="32.1" stroke-width="1.1053px" fill="#333"/>
- <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="24.04" width="119.04" stroke="#000" stroke-linecap="butt" y="219.56" x="32.03" stroke-width="0.95963px" fill="#333"/>
+ <rect opacity="0.6" stroke-linejoin="miter" stroke-dasharray="none" ry="0" height="272.86" width="199" stroke="#333333" stroke-linecap="butt" stroke-miterlimit="4" y="63.657" x="12.5" stroke-width="25" fill="none"/>
+ <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="23.929" width="148.93" stroke="#000" stroke-linecap="butt" y="158.6" x="32.09" stroke-width="1.0709px" fill="#333333"/>
+ <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="23.895" width="158.89" stroke="#000" stroke-linecap="butt" y="280.65" x="32.1" stroke-width="1.1053px" fill="#333333"/>
+ <rect opacity="0.6" stroke-linejoin="miter" fill-rule="evenodd" height="24.04" width="119.04" stroke="#000" stroke-linecap="butt" y="219.56" x="32.03" stroke-width="0.95963px" fill="#333333"/>
  <path d="m107.61,48.867s90.051-201.29,143.02-26.486c52.971,174.81,54.737,174.81,54.737,174.81" stroke-opacity="0" stroke-miterlimit="4" fill="none"/>
- <path opacity="0.6" d="m163.44,113.21-50.932,0-50.932,0,25.468-44.108,25.465-44.108,25.471,44.108z" stroke="#333" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="25" fill="#333"/>
+ <path opacity="0.6" d="m163.44,113.21-50.932,0-50.932,0,25.468-44.108,25.465-44.108,25.471,44.108z" stroke="#333" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="25" fill="#333333"/>
 </svg>
