@@ -116,27 +116,27 @@ public final class CheckedItem implements Parcelable {
    * @return text
    */
   public static String toText(List<CheckedItem> items) {
-  	StringBuilder result = new StringBuilder();
-  	String separator = "\n";
-  	for (CheckedItem item : items) {
-  		result.append(item.getText());
+    StringBuilder result = new StringBuilder();
+    String separator = "\n";
+    for (CheckedItem item : items) {
+      result.append(item.getText());
       result.append(separator);
-  	}
-  	result.delete(result.length() - separator.length(), result.length());
-  	return result.toString();
+    }
+    result.delete(result.length() - separator.length(), result.length());
+    return result.toString();
   }
   
   /**
    * Add more items from a string. Use for paste operation.
    * 
-   * @param items	
+   * @param items  
    * @param more     A string containing more items to append. Each item is separated by '\n'.
    */
   public static void addItems(List<CheckedItem> items, String more) {
-  	String[] moreItems = more.split("\n");
-  	for (String moreItem : moreItems) {
-  		items.add(new CheckedItem(moreItem));
-  	}
+    String[] moreItems = more.split("\n");
+    for (String moreItem : moreItems) {
+      items.add(new CheckedItem(moreItem));
+    }
   }
   
   public static void clearSelectedAll(List<CheckedItem> items) {

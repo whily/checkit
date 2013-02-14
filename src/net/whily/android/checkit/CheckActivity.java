@@ -198,19 +198,19 @@ public final class CheckActivity extends ListActivity
   
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-  	// Only enabled "paste" menu item if there is text in Clipboard.
-  	ClipboardManager clipboard = (ClipboardManager)
-  	  getSystemService(Context.CLIPBOARD_SERVICE);	  
-	  MenuItem pasteItem = menu.findItem(R.id.paste);
-	  pasteItem.setEnabled(clipboard.hasPrimaryClip()
-	    && clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN));
+    // Only enabled "paste" menu item if there is text in Clipboard.
+    ClipboardManager clipboard = (ClipboardManager)
+      getSystemService(Context.CLIPBOARD_SERVICE);    
+    MenuItem pasteItem = menu.findItem(R.id.paste);
+    pasteItem.setEnabled(clipboard.hasPrimaryClip()
+      && clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN));
 
-	  return super.onPrepareOptionsMenu(menu);
+    return super.onPrepareOptionsMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-	int id = item.getItemId();
+  int id = item.getItemId();
     switch(id) {
       case android.R.id.home:
         // App icon in action bar clicked; go home.
@@ -221,27 +221,27 @@ public final class CheckActivity extends ListActivity
         
       case R.id.copy:
       case R.id.paste:
-      	ClipboardManager clipboard = (ClipboardManager)
-    	  	getSystemService(Context.CLIPBOARD_SERVICE);
-      	if (id == R.id.copy) {
-      		ClipData clip = ClipData.newPlainText("CheckIt", CheckedItem.toText(items));
-      		clipboard.setPrimaryClip(clip);
+        ClipboardManager clipboard = (ClipboardManager)
+          getSystemService(Context.CLIPBOARD_SERVICE);
+        if (id == R.id.copy) {
+          ClipData clip = ClipData.newPlainText("CheckIt", CheckedItem.toText(items));
+          clipboard.setPrimaryClip(clip);
           Util.toast(this, "Text copied to clipboard.");
         } else {
-  		    // Only handle one item at a time.
+          // Only handle one item at a time.
           ClipData.Item clipItem = clipboard.getPrimaryClip().getItemAt(0);
           String pasteData = clipItem.getText().toString();
 
           if (pasteData != null) {
-          	CheckedItem.addItems(items, pasteData);
+            CheckedItem.addItems(items, pasteData);
             refreshListView();
             list.smoothScrollToPosition(items.size() - 1);
             modified = true;
             Util.toast(this, "Text pasted from clipboard.");
           }
-      	}
+        }
         return true;
-    	
+      
       case R.id.uncheck_all:
         Alert.show(this, R.string.uncheck_message, R.string.uncheck, 
                    R.string.cancel,
