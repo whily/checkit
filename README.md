@@ -38,6 +38,16 @@ commands at the project directory checked out (assuming debug version):
 2. ./genart
 3. ant debug
 
+TODO
+----
+
+Implement following features
+- [ ] Export/import
+- [ ] Settings (theme/font etc.)
+- [ ] Dropbox support
+- [ ] Evernote support
+- [ ] Help
+
 License
 -------
 
